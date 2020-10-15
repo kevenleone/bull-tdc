@@ -13,10 +13,12 @@ import Queue from '~/utils/Queue';
   config();
   const { RUN_PLAYGROUND, APP_NAME, ENVIRONMENT } = defaults;
   const { PORT } = process.env;
-  const HttpPort = PORT || 3333;
+  const httpPort = PORT || 3333;
+
+  logger.debug(`Starting ${APP_NAME} Server`);
 
   BullBoard.setQueues(Queue.queues.map(queue => queue.bull));
-  logger.debug(`Starting ${APP_NAME} Server`);
+
   await createTypeormConn();
 
   const apolloServerConfig: Config = {
@@ -47,7 +49,7 @@ import Queue from '~/utils/Queue';
 
   server.get('/', (_, res) => res.json({ message: `${defaults.APP_NAME} is Running` }));
 
-  server.listen(HttpPort, () => {
-    logger.debug(`${APP_NAME} has started | PORT: ${HttpPort}`);
+  server.listen(httpPort, () => {
+    logger.debug(`${APP_NAME} has started | PORT: ${httpPort}`);
   });
 })();
