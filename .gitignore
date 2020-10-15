@@ -1,0 +1,9 @@
+node_modules/
+ormconfig.json
+dist
+.env
+data
+log
+coverage
+yarn-error.log
+*.sqlite

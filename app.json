@@ -1,0 +1,59 @@
+{
+  "name": "graphscript",
+  "description": "Graphscript boilerplate",
+  "keywords": [
+    "GraphQL",
+    "NodeJS",
+    "Typescript",
+    "Javascript",
+    "Boilerplate"
+  ],
+  "env": {
+    "AUTH_MIDDLEWARE_ENABLED": {
+      "description": "If true the authorization header is required to access some data",
+      "value": "true"
+    },
+    "JWT_SECRET": {
+      "description": "JWT Secret key",
+      "generator": "secret"
+    },
+    "MAIL_FROM": {
+      "description": "Mailer config for mailer sender",
+      "value": "Fred Foo <foo@example.com>"
+    }
+  },  
+  "formation": {
+    "web": {
+      "quantity": 1,
+      "size": "free"
+    },
+    "worker": {
+      "quantity": 1,
+      "size": "free"
+    }
+  },
+  "addons": [
+    {
+      "plan": "heroku-postgresql:hobby-dev",
+      "options": {
+        "version": "9.5"
+      },
+      "as": "POSTGRES"
+    },
+    {
+      "plan": "heroku-redis:hobby-dev",
+      "options": {
+        "version": "3.2"
+      },
+      "as": "REDIS"
+    },
+    {
+      "plan": "sendgrid:starter"
+    }
+  ],
+  "buildpacks": [
+    {
+      "url": "heroku/nodejs"
+    }
+  ]
+}
