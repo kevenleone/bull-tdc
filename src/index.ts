@@ -1,7 +1,7 @@
 import 'reflect-metadata';
 import Express from 'express';
 import { config } from 'dotenv';
-import BullBoard from 'bull-board';
+import { setQueues, router as BullRouter } from 'bull-board';
 import { ApolloServer, Config } from 'apollo-server-express';
 
 import { defaults, logger } from '~/utils/globalMethods';
@@ -17,7 +17,7 @@ import Queue from '~/utils/Queue';
 
   logger.debug(`Starting ${APP_NAME} Server`);
 
-  BullBoard.setQueues(Queue.queues.map(queue => queue.bull));
+  setQueues(Queue.queues.map(queue => queue.bull));
 
   await createTypeormConn();
 
@@ -45,7 +45,7 @@ import Queue from '~/utils/Queue';
     cors: false,
   });
 
-  server.use('/admin/queues', BullBoard.UI);
+  server.use('/admin/queues', BullRouter);
 
   server.get('/', (_, res) => res.json({ message: `${defaults.APP_NAME} is Running` }));
 
