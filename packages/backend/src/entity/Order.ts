@@ -1,6 +1,6 @@
-import { ObjectType, ID, Field } from 'type-graphql';
+import { Field, ID, ObjectType } from 'type-graphql';
+import { BaseEntity, Column, Entity, PrimaryColumn } from 'typeorm';
 
-import { Entity, Column, PrimaryColumn, BaseEntity } from 'typeorm';
 import Service from './Service';
 
 export enum Status {
@@ -33,7 +33,7 @@ export class Order extends BaseEntity {
   status: Status;
 
   @Field(() => [Service])
-  async services(): Promise<Service[]> {
+  async services (): Promise<Service[]> {
     const services = await Service.find({ where: { orderId: this.id.toString() } });
     return services;
   }

@@ -30,7 +30,6 @@ module.exports = {
     "sort-keys-fix/sort-keys-fix": "warn",
     "no-explicit-any": "off",
     "camelcase": "off",
-    "@typescript-eslint/camelcase": ["error", { "genericType": "never" }],
     "react/display-name": "off"
   },
   settings: {

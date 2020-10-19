@@ -1,7 +1,7 @@
 {
     "name": "monorepo",
     "version": "1.0.0",
-    "repository": "https://github.com/kevenleone/trickster-app.git",
+    "repository": "https://github.com/kevenleone/jobs-tdc.git",
     "author": "Keven <keven.santos.sz@gmail.com>",
     "license": "MIT",
     "private": true,

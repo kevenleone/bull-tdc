@@ -1,5 +1,5 @@
 import { Field, ID, ObjectType, registerEnumType } from 'type-graphql';
-import { BaseEntity, Entity, Column, PrimaryColumn } from 'typeorm';
+import { BaseEntity, Column, Entity, PrimaryColumn } from 'typeorm';
 
 enum Status {
   CREATED,
@@ -10,8 +10,8 @@ enum Status {
 }
 
 registerEnumType(Status, {
-  name: 'Status',
   description: 'Status used on Service',
+  name: 'Status'
 });
 
 @Entity()
