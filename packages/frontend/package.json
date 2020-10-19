@@ -1,0 +1,22 @@
+{
+  "name": "@monorepo/frontend",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start"
+  },
+  "dependencies": {
+    "next": "9.5.5",
+    "react": "16.14.0",
+    "react-dom": "16.14.0",
+    "@zeit/next-css": "^1.0.1",
+    "next-images": "^1.6.0"
+  },
+  "devDependencies": {
+    "@types/node": "^14.11.8",
+    "@types/react": "^16.9.52",
+    "typescript": "^4.0.3"
+  }
+}
