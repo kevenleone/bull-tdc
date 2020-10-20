@@ -1,9 +1,9 @@
-import { EntityOptions } from 'typeorm';
 import { gql } from 'apollo-server-express';
+import { EntityOptions } from 'typeorm';
 
-import { Pagination, MailConfig } from '~/interfaces';
-import Constants from '~/utils/contants';
 import Defaults from '~/config/defaults';
+import { MailConfig, Pagination } from '~/interfaces';
+import Constants from '~/utils/contants';
 import Logger from '~/utils/logger';
 
 export const constants = Constants;
@@ -15,15 +15,15 @@ export const logger = Logger;
  * @returns MailConfig
  */
 
-export function MailerCredentials(): MailConfig {
-  const { MAIL_HOST, MAIL_PORT, MAIL_USER, MAIL_PASS } = defaults;
+export function MailerCredentials (): MailConfig {
+  const { MAIL_HOST, MAIL_PASS, MAIL_PORT, MAIL_USER } = defaults;
   return {
-    host: MAIL_HOST,
-    port: MAIL_PORT,
     auth: {
-      user: MAIL_USER,
       pass: MAIL_PASS,
+      user: MAIL_USER
     },
+    host: MAIL_HOST,
+    port: MAIL_PORT
   };
 }
 
@@ -33,7 +33,7 @@ export function MailerCredentials(): MailConfig {
  * @returns A string with the operation name
  */
 
-export function getGraphqlOperation(graphqlQuery: any): string {
+export function getGraphqlOperation (graphqlQuery: any): string {
   try {
     const GQL = gql`
       ${graphqlQuery}
@@ -55,7 +55,7 @@ export function getGraphqlOperation(graphqlQuery: any): string {
  * @param defaultSize How many items will be displayed, default = 20
  */
 
-export function normalizePagination(pagination: Pagination, defaultSize = 20): Pagination {
+export function normalizePagination (pagination: Pagination, defaultSize = 20): Pagination {
   const pageSize = pagination.pageSize || defaultSize;
   const pageIndex = pagination.pageIndex || 1;
   const take = pageSize;
@@ -66,14 +66,14 @@ export function normalizePagination(pagination: Pagination, defaultSize = 20): P
   }
 
   return {
-    pageSize,
     pageIndex,
-    take,
+    pageSize,
     skip,
+    take
   };
 }
 
-export async function execMiddleware(entity: EntityOptions, data: any, ...middlewares: Function[]): Promise<void> {
+export async function execMiddleware (entity: EntityOptions, data: any, ...middlewares: Function[]): Promise<void> {
   for (const middleware of middlewares) {
     await middleware(entity, data);
   }
