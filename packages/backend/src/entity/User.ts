@@ -4,30 +4,30 @@ import { BaseEntity, Column, Entity, Index, PrimaryColumn } from 'typeorm';
 @ObjectType()
 @Entity()
 export class User extends BaseEntity {
-    @Field(() => ID)
-    @PrimaryColumn({ generated: 'uuid' })
-    id: string;
+  @Field(() => ID)
+  @PrimaryColumn({ generated: 'uuid' })
+  id: string;
 
-    @Field()
-    @Column()
-    firstName: string;
+  @Field()
+  @Column()
+  firstName: string;
 
-    @Field()
-    @Column()
-    lastName: string;
+  @Field()
+  @Column()
+  lastName: string;
 
-    @Field()
-    fullName(): string {
-        const { firstName, lastName } = this;
-        return `${firstName} ${lastName}`;
-    }
+  @Field()
+  fullName(): string {
+    const { firstName, lastName } = this;
+    return `${firstName} ${lastName}`;
+  }
 
-    @Field()
-    @Column()
-    @Index({ unique: true })
-    email: string;
+  @Field()
+  @Column()
+  @Index({ unique: true })
+  email: string;
 
-    @Field()
-    @Column()
-    password: string;
+  @Field()
+  @Column()
+  password: string;
 }

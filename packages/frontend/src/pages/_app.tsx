@@ -7,11 +7,11 @@ import React from 'react';
 const spritemap = require('../assets/spritemap.svg');
 
 function MyApp({ Component, pageProps }) {
-    return (
-        <ClayIconSpriteContext.Provider value={spritemap}>
-            <Component {...pageProps} />
-        </ClayIconSpriteContext.Provider>
-    );
+  return (
+    <ClayIconSpriteContext.Provider value={spritemap}>
+      <Component {...pageProps} />
+    </ClayIconSpriteContext.Provider>
+  );
 }
 
 export default MyApp;
