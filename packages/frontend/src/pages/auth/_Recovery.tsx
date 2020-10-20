@@ -19,12 +19,12 @@ export default function _Recovery({ setPageType }) {
         </ClayLayout.Row>
         <ClayLayout.Row className="signin__navigation_buttons">
           <ClayLayout.Col>
-            <ClayButton onClick={() => setPageType('signIn')} displayType="unstyled" className="btn-link">
+            <ClayButton onClick={() => setPageType('SignIn')} displayType="unstyled" className="btn-link">
               Sign In
             </ClayButton>
           </ClayLayout.Col>
           <ClayLayout.Col style={{ textAlign: 'end' }}>
-            <ClayButton onClick={() => setPageType('signUp')} displayType="unstyled" className="btn-link">
+            <ClayButton onClick={() => setPageType('SignUp')} displayType="unstyled" className="btn-link">
               Create Account
             </ClayButton>
           </ClayLayout.Col>

@@ -1,4 +1,5 @@
 @import './pages/sign-in.scss';
+@import './components/page.scss';
 
 html,
 body {
@@ -8,17 +9,8 @@ body {
     Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
 }
 
-a {
-  color: inherit;
-  text-decoration: none;
-}
-
 * {
   box-sizing: border-box;
-}
-
-.float-right {
-  float: right !important;
 }
 
 .NavigationBar ul.navbar-nav {

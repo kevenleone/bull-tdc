@@ -10,7 +10,7 @@ export default function _SignUp({ setPageType }) {
       <ClayForm className="mt-5">
         <ClayForm.Group>
           <label htmlFor="email">Screen Name</label>
-          <ClayInput name="email" type="text" />
+          <ClayInput name="screen_name" type="text" />
         </ClayForm.Group>
         <ClayForm.Group>
           <label htmlFor="email">Email</label>
@@ -30,12 +30,12 @@ export default function _SignUp({ setPageType }) {
         </ClayLayout.Row>
         <ClayLayout.Row className="signin__navigation_buttons">
           <ClayLayout.Col>
-            <ClayButton onClick={() => setPageType('signIn')} displayType="unstyled" className="btn-link">
+            <ClayButton onClick={() => setPageType('SignIn')} displayType="unstyled" className="btn-link">
               Sign In
             </ClayButton>
           </ClayLayout.Col>
           <ClayLayout.Col style={{ textAlign: 'end' }}>
-            <ClayButton onClick={() => setPageType('recovery')} displayType="unstyled" className="btn-link">
+            <ClayButton onClick={() => setPageType('Recovery')} displayType="unstyled" className="btn-link">
               Forgot Password
             </ClayButton>
           </ClayLayout.Col>

@@ -23,12 +23,12 @@ export default function _SignIn({ setPageType }) {
         </ClayLayout.Row>
         <ClayLayout.Row className="signin__navigation_buttons">
           <ClayLayout.Col>
-            <ClayButton onClick={() => setPageType('signUp')} displayType="unstyled" className="btn-link">
+            <ClayButton onClick={() => setPageType('SignUp')} displayType="unstyled" className="btn-link">
               Create Account
             </ClayButton>
           </ClayLayout.Col>
           <ClayLayout.Col style={{ textAlign: 'end' }}>
-            <ClayButton onClick={() => setPageType('recovery')} displayType="unstyled" className="btn-link">
+            <ClayButton onClick={() => setPageType('Recovery')} displayType="unstyled" className="btn-link">
               Forgot Password
             </ClayButton>
           </ClayLayout.Col>

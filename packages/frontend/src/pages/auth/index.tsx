@@ -3,21 +3,19 @@ import ClayLayout from '@clayui/layout';
 import Head from 'next/head';
 import React, { useState } from 'react';
 
-import NavigationBar from '../../components/NavigationBar';
 import Recovery from './_Recovery';
 import SignIn from './_SignIn';
 import SignUp from './_SignUp';
 
 export default function index() {
-  const defaultPage = 'signIn';
+  const defaultPage = 'SignIn';
   const [pageType, setPageType] = useState(defaultPage);
 
   return (
     <div className="sign__in">
       <Head>
-        <title>Auth</title>
+        <title>Liferay | {pageType}</title>
       </Head>
-      <NavigationBar />
       <ClayLayout.Row justify="start" className="signin__row">
         <ClayLayout.Col size={6} className="signin__col signin__main">
           <ClayLayout.ContainerFluid view>
@@ -29,9 +27,9 @@ export default function index() {
                   displayType="unstyled"
                   className="signin__btn-back"
                 />
-                {pageType === 'signIn' && <SignIn setPageType={setPageType} />}
-                {pageType === 'signUp' && <SignUp setPageType={setPageType} />}
-                {pageType === 'recovery' && <Recovery setPageType={setPageType} />}
+                {pageType === 'SignIn' && <SignIn setPageType={setPageType} />}
+                {pageType === 'SignUp' && <SignUp setPageType={setPageType} />}
+                {pageType === 'Recovery' && <Recovery setPageType={setPageType} />}
 
                 <div className="signin__footer">
                   <p>Copyright 2020. All Rights Reserverd.</p>
