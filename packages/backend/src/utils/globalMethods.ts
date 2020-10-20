@@ -15,16 +15,16 @@ export const logger = Logger;
  * @returns MailConfig
  */
 
-export function MailerCredentials (): MailConfig {
-  const { MAIL_HOST, MAIL_PASS, MAIL_PORT, MAIL_USER } = defaults;
-  return {
-    auth: {
-      pass: MAIL_PASS,
-      user: MAIL_USER
-    },
-    host: MAIL_HOST,
-    port: MAIL_PORT
-  };
+export function MailerCredentials(): MailConfig {
+    const { MAIL_HOST, MAIL_PASS, MAIL_PORT, MAIL_USER } = defaults;
+    return {
+        auth: {
+            pass: MAIL_PASS,
+            user: MAIL_USER,
+        },
+        host: MAIL_HOST,
+        port: MAIL_PORT,
+    };
 }
 
 /**
@@ -33,20 +33,20 @@ export function MailerCredentials (): MailConfig {
  * @returns A string with the operation name
  */
 
-export function getGraphqlOperation (graphqlQuery: any): string {
-  try {
-    const GQL = gql`
-      ${graphqlQuery}
-    `;
-    const operations = GQL.definitions.map(
-      (query: any) =>
-        `${query.operation} ${query.name ? query.name.value : query.selectionSet.selections[0].name.value}`
-    );
-    return `[${operations.join(', ')}]`;
-  } catch (e) {
-    logger.error(`Error in getGraphqlOperation, reason: ${e.message}`);
-    return 'Unknown';
-  }
+export function getGraphqlOperation(graphqlQuery: any): string {
+    try {
+        const GQL = gql`
+            ${graphqlQuery}
+        `;
+        const operations = GQL.definitions.map(
+            (query: any) =>
+                `${query.operation} ${query.name ? query.name.value : query.selectionSet.selections[0].name.value}`,
+        );
+        return `[${operations.join(', ')}]`;
+    } catch (e) {
+        logger.error(`Error in getGraphqlOperation, reason: ${e.message}`);
+        return 'Unknown';
+    }
 }
 
 /**
@@ -55,26 +55,26 @@ export function getGraphqlOperation (graphqlQuery: any): string {
  * @param defaultSize How many items will be displayed, default = 20
  */
 
-export function normalizePagination (pagination: Pagination, defaultSize = 20): Pagination {
-  const pageSize = pagination.pageSize || defaultSize;
-  const pageIndex = pagination.pageIndex || 1;
-  const take = pageSize;
-  let skip = 0;
+export function normalizePagination(pagination: Pagination, defaultSize = 20): Pagination {
+    const pageSize = pagination.pageSize || defaultSize;
+    const pageIndex = pagination.pageIndex || 1;
+    const take = pageSize;
+    let skip = 0;
 
-  if (pageIndex > 1) {
-    skip = take * (pageIndex - 1);
-  }
+    if (pageIndex > 1) {
+        skip = take * (pageIndex - 1);
+    }
 
-  return {
-    pageIndex,
-    pageSize,
-    skip,
-    take
-  };
+    return {
+        pageIndex,
+        pageSize,
+        skip,
+        take,
+    };
 }
 
-export async function execMiddleware (entity: EntityOptions, data: any, ...middlewares: Function[]): Promise<void> {
-  for (const middleware of middlewares) {
-    await middleware(entity, data);
-  }
+export async function execMiddleware(entity: EntityOptions, data: any, ...middlewares: Function[]): Promise<void> {
+    for (const middleware of middlewares) {
+        await middleware(entity, data);
+    }
 }

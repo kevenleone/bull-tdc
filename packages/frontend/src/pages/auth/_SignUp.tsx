@@ -3,11 +3,15 @@ import ClayForm, { ClayInput } from '@clayui/form';
 import ClayLayout from '@clayui/layout';
 import React from 'react';
 
-export default function _SignIn({ setPageType }) {
+export default function _SignUp({ setPageType }) {
     return (
         <div>
-            <h1>Sign In</h1>
+            <h1>Create Account</h1>
             <ClayForm className="mt-5">
+                <ClayForm.Group>
+                    <label htmlFor="email">Screen Name</label>
+                    <ClayInput name="email" type="text" />
+                </ClayForm.Group>
                 <ClayForm.Group>
                     <label htmlFor="email">Email</label>
                     <ClayInput name="email" type="text" />
@@ -17,14 +21,17 @@ export default function _SignIn({ setPageType }) {
                     <ClayInput name="password" type="password" />
                 </ClayForm.Group>
                 <ClayLayout.Row>
-                    <ClayLayout.Col xl={12}>
-                        <ClayButton className="btn-block">Sign In</ClayButton>
+                    <ClayLayout.Col xl={5}>
+                        <ClayButton className="btn-block">Cancel</ClayButton>
+                    </ClayLayout.Col>
+                    <ClayLayout.Col xl={7}>
+                        <ClayButton className="btn-block">Create</ClayButton>
                     </ClayLayout.Col>
                 </ClayLayout.Row>
                 <ClayLayout.Row className="signin__navigation_buttons">
                     <ClayLayout.Col>
-                        <ClayButton onClick={() => setPageType('signUp')} displayType="unstyled" className="btn-link">
-                            Create Account
+                        <ClayButton onClick={() => setPageType('signIn')} displayType="unstyled" className="btn-link">
+                            Sign In
                         </ClayButton>
                     </ClayLayout.Col>
                     <ClayLayout.Col style={{ textAlign: 'end' }}>

@@ -6,7 +6,6 @@
     "license": "MIT",
     "private": true,
     "scripts": {
-      "lint": "yarn lint:backend & yarn lint:frontend",
       "lint:backend": "yarn workspace @monorepo/backend lint",
       "lint:frontend": "yarn workspace @monorepo/frontend lint",
       "start:frontend": "yarn workspace @monorepo/frontend dev",
@@ -15,7 +14,8 @@
       "studio": "yarn workspace @monorepo/backend studio",
       "format:frontend": "eslint packages/frontend/**/*.ts --fix",
       "format": "eslint packages/backend/src/* --ext .ts --fix",
-      "test": "jest"
+      "test": "jest",
+      "lint": "eslint '*/**/*.{js,ts,tsx}' --quiet --fix"
     },
     "workspaces": {
       "packages": [

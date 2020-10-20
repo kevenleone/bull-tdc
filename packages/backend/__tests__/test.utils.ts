@@ -1,10 +1,10 @@
 const next: any = () => ({});
 
 const ctx: any = {
-  context: {
-    req: {
-      body: {
-        query: `
+    context: {
+        req: {
+            body: {
+                query: `
           {
             getAllUser {
               id
@@ -12,13 +12,13 @@ const ctx: any = {
               lastName
             }
           }`,
-      },
-      headers: {
-        authorization: '',
-      },
+            },
+            headers: {
+                authorization: '',
+            },
+        },
+        res: {},
     },
-    res: {},
-  },
 };
 
 export { next, ctx };
