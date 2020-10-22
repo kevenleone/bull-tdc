@@ -6,7 +6,16 @@ import ClayLabel from '@clayui/label';
 import ClayManagementToolbar, { ClayResultsBar } from '@clayui/management-toolbar';
 import React, { useState } from 'react';
 
-const Component = ({ addButton, info, listType, orderBy, searchMode, searchText }) => {
+interface ManagementToolbarProps {
+  searchText?: string;
+  searchMode?: boolean;
+  orderBy?: boolean;
+  listType?: string;
+  info?: boolean;
+  addButton?: React.ReactElement;
+}
+
+const Component = ({ addButton, info, listType, orderBy, searchMode, searchText }: ManagementToolbarProps) => {
   const filterItems = [
     { label: 'Filter Action 1', onClick: () => alert('Filter clicked') },
     { label: 'Filter Action 2', onClick: () => alert('Filter clicked') },
@@ -55,11 +64,13 @@ const Component = ({ addButton, info, listType, orderBy, searchMode, searchText 
             }
           />
 
-          <ClayManagementToolbar.Item>
-            <ClayButton className="nav-link nav-link-monospaced order-arrow-down-active" displayType="unstyled">
-              <ClayIcon symbol="order-arrow" />
-            </ClayButton>
-          </ClayManagementToolbar.Item>
+          {orderBy && (
+            <ClayManagementToolbar.Item>
+              <ClayButton className="nav-link nav-link-monospaced order-arrow-down-active" displayType="unstyled">
+                <ClayIcon symbol="order-arrow" />
+              </ClayButton>
+            </ClayManagementToolbar.Item>
+          )}
         </ClayManagementToolbar.ItemList>
 
         <ClayManagementToolbar.Search showMobile={searchMobile}>
@@ -124,30 +135,29 @@ const Component = ({ addButton, info, listType, orderBy, searchMode, searchText 
         </ClayManagementToolbar.ItemList>
       </ClayManagementToolbar>
 
-      {searchText &&
-        searchMode(
-          <ClayResultsBar>
-            <ClayResultsBar.Item>
-              <span className="component-text text-truncate-inline">
-                <span className="text-truncate">
-                  {'2 results for "'}
-                  <strong>{'Red'}</strong>
-                  {'"'}
-                </span>
+      {searchText && (
+        <ClayResultsBar>
+          <ClayResultsBar.Item>
+            <span className="component-text text-truncate-inline">
+              <span className="text-truncate">
+                {'2 results for "'}
+                <strong>{'Red'}</strong>
+                {'"'}
               </span>
-            </ClayResultsBar.Item>
-            <ClayResultsBar.Item expand>
-              <ClayLabel className="component-label tbar-label" displayType="unstyled">
-                {'Filter'}
-              </ClayLabel>
-            </ClayResultsBar.Item>
-            <ClayResultsBar.Item>
-              <ClayButton className="component-link tbar-link" displayType="unstyled">
-                {'Clear'}
-              </ClayButton>
-            </ClayResultsBar.Item>
-          </ClayResultsBar>,
-        )}
+            </span>
+          </ClayResultsBar.Item>
+          <ClayResultsBar.Item expand>
+            <ClayLabel className="component-label tbar-label" displayType="unstyled">
+              {'Filter'}
+            </ClayLabel>
+          </ClayResultsBar.Item>
+          <ClayResultsBar.Item>
+            <ClayButton className="component-link tbar-link" displayType="unstyled">
+              {'Clear'}
+            </ClayButton>
+          </ClayResultsBar.Item>
+        </ClayResultsBar>
+      )}
     </>
   );
 };
