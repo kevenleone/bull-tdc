@@ -37,7 +37,13 @@ export default class Service extends BaseEntity {
   @Column()
   serviceType: string;
 
+  @Field()
+  @Column()
+  description: string;
+
   @Field(() => Status)
   @Column()
   status: Status;
 }
+
+export { Status };

@@ -59,16 +59,6 @@ const Order = () => {
 
                 <ClayLayout.Row className="order-info">
                   <ClayLayout.Col>
-                    <p>Created Data</p>
-                    <span>1 hour ago</span>
-                  </ClayLayout.Col>
-                  <ClayLayout.Col>
-                    <p>Created Data</p>
-                    <span>1 hour ago</span>
-                  </ClayLayout.Col>
-                </ClayLayout.Row>
-                <ClayLayout.Row className="order-info">
-                  <ClayLayout.Col>
                     <p>Description</p>
                     <span>
                       Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut

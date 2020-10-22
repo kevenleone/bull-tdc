@@ -34,7 +34,6 @@ export class Order extends BaseEntity {
 
   @Field(() => [Service])
   async services(): Promise<Service[]> {
-    const services = await Service.find({ where: { orderId: this.id.toString() } });
-    return services;
+    return Service.find({ where: { orderId: this.id.toString() } });
   }
 }

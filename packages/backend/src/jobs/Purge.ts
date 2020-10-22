@@ -4,9 +4,7 @@ import { constants } from '~/utils/globalMethods';
 const { JOB_PURGE, PRIORITY_HIGH } = constants;
 
 export default {
-  name: JOB_PURGE,
   active: true,
-  selfRegister: true,
   config: {
     priority: PRIORITY_HIGH,
     repeat: {
@@ -20,4 +18,6 @@ export default {
      */
     await User.findAndCount();
   },
+  name: JOB_PURGE,
+  selfRegister: true,
 };

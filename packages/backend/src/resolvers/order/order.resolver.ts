@@ -9,8 +9,8 @@ import { Create, FilterInput, Update } from './Inputs';
 
 const Inputs = {
   create: Create,
-  update: Update,
   filter: FilterInput,
+  update: Update,
 };
 
 const BaseResolver = createBaseResolver('Order', Order, Order, Inputs);
