@@ -27,7 +27,7 @@ const handle = async ({ data }: any): Promise<void> => {
     order.modifiedAt = new Date().toISOString();
     order.save();
 
-    const services = generateFakeServices(id, 10);
+    const services = generateFakeServices(id, 3);
 
     for (const service of services) {
       service.save();

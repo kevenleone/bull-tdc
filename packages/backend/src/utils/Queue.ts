@@ -1,4 +1,4 @@
-import { Queue, Worker } from 'bullmq';
+import { Queue, QueueScheduler, Worker } from 'bullmq';
 
 import * as Jobs from '~/jobs';
 import { constants, defaults, logger } from '~/utils/globalMethods';
@@ -9,20 +9,43 @@ const redisOptions = {
   port: 6379,
 };
 
-const queues = Object.values(Jobs).map((job) => {
+const getQueueData = (job: any) => {
   const { active = true, config, data, handle, name, selfRegister = false }: any = job;
   const bull = new Queue(name, { connection: { ...redisOptions } });
-  if (selfRegister && active) bull.add(name, data, config);
+
+  if (selfRegister && active) {
+    // eslint-disable-next-line no-new
+    new QueueScheduler(name);
+    bull.add(name, data, config);
+  }
+
   return {
-    bull,
-    name,
-    handle,
     active,
+    bull,
+    handle,
+    name,
   };
+};
+
+interface QueueInterface {
+  active: boolean;
+  bull: Queue;
+  handle(): any;
+  name: string;
+}
+
+const queues: QueueInterface[] = [];
+
+Object.values(Jobs).map((job) => {
+  if (Array.isArray(job)) {
+    job.forEach((jobData) => {
+      queues.push(getQueueData(jobData));
+    });
+  }
+  queues.push(getQueueData(job));
 });
 
 export default {
-  queues,
   add(name: string, data?: any): any {
     const queue = this.queues.find((queue) => queue.name === name);
     if (queue) {
@@ -51,4 +74,5 @@ export default {
       }
     }
   },
+  queues,
 };
