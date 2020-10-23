@@ -1,3 +1,4 @@
+import { gql, useQuery } from '@apollo/client';
 import ClayButton from '@clayui/button';
 import ClayIcon from '@clayui/icon';
 import ClayLabel from '@clayui/label';
@@ -13,6 +14,18 @@ import Modal from '../components/Modal';
 import Page from '../components/Page';
 import Table from '../components/Table';
 
+const getAllOrders = gql`
+  query getOrders {
+    getAllOrder {
+      id
+      createdBy
+      createdAt
+      modifiedAt
+      status
+    }
+  }
+`;
+
 const StatusTypeDisplay = {
   IN_PROCESSING: 'info',
   NOT_PROCESSED: 'danger',
@@ -21,14 +34,14 @@ const StatusTypeDisplay = {
 
 const columns = [
   {
-    key: 'name',
-    render: (value) => (
+    key: 'createdBy',
+    render: (value, { id }) => (
       <>
         <ClaySticker displayType="light" shape="circle" size="sm">
           <img className="sticker-img" src="https://avatars2.githubusercontent.com/u/22279592?v=4" />
         </ClaySticker>
 
-        <Link href="/order/1">
+        <Link href={`/order/${id}`}>
           <span className="ml-2 link">{value}</span>
         </Link>
       </>
@@ -43,29 +56,6 @@ const columns = [
     key: 'status',
     render: (status) => <ClayLabel displayType={StatusTypeDisplay[status]}>{status}</ClayLabel>,
     value: 'Status',
-  },
-];
-
-const items = [
-  {
-    createdAt: '22/10/2020',
-    name: 'Order Name',
-    status: 'Processing',
-  },
-  {
-    createdAt: '22/10/2020',
-    name: 'Order Name',
-    status: 'IN_PROCESSING',
-  },
-  {
-    createdAt: '22/10/2020',
-    name: 'Order Name',
-    status: 'PROCESSED',
-  },
-  {
-    createdAt: '22/10/2020',
-    name: 'Order Name',
-    status: 'NOT_PROCESSED',
   },
 ];
 
@@ -85,27 +75,30 @@ const AddButton = () => (
   </ClayButton>
 );
 
-export default function index() {
+const Order: React.FC = () => {
+  const { data } = useQuery(getAllOrders);
   const [modalVisible, setModalVisible] = useState(false);
+
+  const items = data?.getAllOrder || [];
+
+  const withItems = !!items.length;
+
   return (
     <Page title="Order" addButton={AddButton}>
       <Head>
         <title>Liferay | Order</title>
       </Head>
-      <div className="mt-4">
+      <div className="mt-4 p-4" style={{ backgroundColor: 'white' }}>
         <ManagementToolbar orderBy />
-        {items.length && (
-          <div className="">
-            <Table borderless actions={actions} columns={columns} items={items} />
-          </div>
+        {withItems && <Table borderless actions={actions} columns={columns} items={items} />}
+
+        {!withItems && (
+          <EmptyState description="Please, import a supported file" title="No orders yet">
+            {AddButton()}
+          </EmptyState>
         )}
       </div>
 
-      {!items.length && (
-        <EmptyState description="Please, import a supported file" title="No orders yet">
-          {AddButton()}
-        </EmptyState>
-      )}
       <Modal size="md" visible={modalVisible} toggle={() => setModalVisible(!modalVisible)} title="Import File">
         <div className="import-file">
           <div className="mb-4">
@@ -120,4 +113,6 @@ export default function index() {
       </Modal>
     </Page>
   );
-}
+};
+
+export default Order;

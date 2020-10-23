@@ -43,7 +43,7 @@ import { createTypeormConn } from '~/utils/typeORMConn';
 
   apolloServer.applyMiddleware({
     app: server,
-    cors: false,
+    cors: true,
   });
 
   server.use('/admin/queues', BullRouter);
