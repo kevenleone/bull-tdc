@@ -4,16 +4,19 @@ import { Field, InputType } from 'type-graphql';
 class OrderBaseInput {
   @Field()
   createdBy: string;
+
+  @Field({ nullable: true })
+  name: string;
 }
 
 @InputType()
-export class Create extends OrderBaseInput {}
+export class CreateOrderInput extends OrderBaseInput {}
 
 @InputType()
-export class Update extends OrderBaseInput {}
+export class UpdateOrderInput extends OrderBaseInput {}
 
 @InputType()
-export class FilterInput {
+export class FilterOrderInput {
   @Field({ nullable: true })
   createdBy?: string;
 }

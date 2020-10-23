@@ -1,10 +1,15 @@
 [
   {
     "name": "development",
-    "type": "sqlite",
-    "database": "graphscript.sqlite",
-    "dropSchema": false,
+    "type": "mongodb",
+    "host": "localhost",
+    "port": 27017,
+    "username": "",
+    "password": "",
+    "database": "liferay-tdc",
     "synchronize": true,
+    "useNewUrlParser": true,
+    "useUnifiedTopology": true,
     "logging": true,
     "entities": ["./src/entity/*.ts"]
   },

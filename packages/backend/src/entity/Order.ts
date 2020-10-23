@@ -1,5 +1,5 @@
 import { Field, ID, ObjectType } from 'type-graphql';
-import { BaseEntity, Column, Entity, PrimaryColumn } from 'typeorm';
+import { BaseEntity, Column, Entity, ObjectID, ObjectIdColumn } from 'typeorm';
 
 import Service from './Service';
 
@@ -13,8 +13,8 @@ export enum Status {
 @ObjectType()
 export class Order extends BaseEntity {
   @Field(() => ID)
-  @PrimaryColumn({ generated: 'uuid' })
-  id: string;
+  @ObjectIdColumn()
+  id: ObjectID;
 
   @Field()
   @Column()
@@ -24,13 +24,13 @@ export class Order extends BaseEntity {
   @Column()
   createdBy: string;
 
-  @Field({ defaultValue: new Date().toISOString() })
-  @Column({ default: new Date().toISOString() })
-  createdAt: string;
+  @Field({ defaultValue: new Date() })
+  @Column({ default: new Date() })
+  createdAt: Date;
 
-  @Field({ defaultValue: new Date().toISOString() })
-  @Column({ default: new Date().toISOString() })
-  modifiedAt: string;
+  @Field({ defaultValue: new Date() })
+  @Column({ default: new Date() })
+  modifiedAt: Date;
 
   @Field({ defaultValue: Status.NOT_PROCESSED })
   @Column({ default: Status.NOT_PROCESSED })

@@ -24,7 +24,7 @@ const handle = async ({ data }: any): Promise<void> => {
   const order = await Order.findOne(id);
   if (order) {
     order.status = Status.IN_PROCESS;
-    order.modifiedAt = new Date().toISOString();
+    order.modifiedAt = new Date();
     order.save();
 
     const services = generateFakeServices(id, 3);

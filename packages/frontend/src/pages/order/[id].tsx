@@ -8,20 +8,20 @@ import React from 'react';
 import { initializeApollo } from '../../../nextApollo';
 import Page from '../../components/Page';
 
-const Order = ({ createdBy, services }) => {
+const Order = ({ createdBy, name, services }) => {
   const router = useRouter();
 
   return (
-    <Page onClickBack={() => router.push('/')} title="Order Name">
+    <Page onClickBack={() => router.push('/')} title={name}>
       <Head>
-        <title>Liferay | Order Detail</title>
+        <title>Liferay | {name}</title>
       </Head>
       <ClayLayout.ContainerFluid>
         <ClayLayout.Row>
           <ClayLayout.Col xl={4} className="order-list">
             <div className="p-3">
               <div className="mt-2 mb-4">
-                <h1>Services</h1>
+                <h1>Service</h1>
               </div>
               {services.map((service) => (
                 <div className="order-card mb-4">
@@ -94,6 +94,7 @@ Order.getInitialProps = async ({ query: { id } }) => {
         createdBy
         createdAt
         modifiedAt
+        name
         status
         services {
           id

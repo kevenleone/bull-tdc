@@ -38,7 +38,7 @@ const queues: QueueInterface[] = [];
 
 Object.values(Jobs).map((job) => {
   if (Array.isArray(job)) {
-    job.forEach((jobData) => {
+    return job.forEach((jobData) => {
       queues.push(getQueueData(jobData));
     });
   }

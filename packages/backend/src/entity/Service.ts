@@ -1,5 +1,5 @@
 import { Field, ID, ObjectType, registerEnumType } from 'type-graphql';
-import { BaseEntity, Column, Entity, PrimaryColumn } from 'typeorm';
+import { BaseEntity, Column, Entity, ObjectID, ObjectIdColumn } from 'typeorm';
 
 enum Status {
   CREATED,
@@ -18,8 +18,8 @@ registerEnumType(Status, {
 @ObjectType()
 export default class Service extends BaseEntity {
   @Field(() => ID)
-  @PrimaryColumn({ generated: 'uuid' })
-  id: string;
+  @ObjectIdColumn()
+  id: ObjectID;
 
   @Field()
   @Column()
