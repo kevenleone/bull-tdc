@@ -3,7 +3,15 @@ import React from 'react';
 
 import DropDown from './DropDown';
 
-export default function index({ borderless, className, actions, columns = [], items = [] }) {
+interface ITable {
+  borderless?: boolean;
+  className?: string;
+  actions: Array<any>;
+  columns: Array<any>;
+  items: Array<any>;
+}
+
+const TableComponent = ({ borderless, className, actions, columns = [], items = [] }: ITable): React.ReactElement => {
   return (
     <ClayTable className={className} borderless={borderless}>
       <ClayTable.Head>
@@ -34,4 +42,6 @@ export default function index({ borderless, className, actions, columns = [], it
       </ClayTable.Body>
     </ClayTable>
   );
-}
+};
+
+export default TableComponent;

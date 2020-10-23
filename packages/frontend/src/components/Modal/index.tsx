@@ -5,15 +5,15 @@ type Size = 'full-screen' | 'lg' | 'sm';
 
 interface ModalProps {
   children: ReactElement;
-  first: ReactElement;
-  last: ReactElement;
+  first?: ReactElement;
+  last?: ReactElement;
   title?: string;
   toggle(): void;
   visible: boolean;
-  size: Size;
+  size?: Size;
 }
 
-const Modal = ({ children, first, last, size = 'lg', title, toggle, visible }: ModalProps): ReactElement => {
+const Modal = ({ children, first, last, size, title, toggle, visible }: ModalProps): ReactElement => {
   const { observer } = useModal({
     onClose: toggle,
   });

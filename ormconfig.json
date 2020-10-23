@@ -3,7 +3,7 @@
     "name": "development",
     "type": "sqlite",
     "database": "graphscript.sqlite",
-    "dropSchema": true,
+    "dropSchema": false,
     "synchronize": true,
     "logging": true,
     "entities": ["./src/entity/*.ts"]

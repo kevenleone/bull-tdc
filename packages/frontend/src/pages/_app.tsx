@@ -5,15 +5,16 @@ import { ApolloProvider } from '@apollo/client';
 import { ClayIconSpriteContext } from '@clayui/icon';
 import React from 'react';
 
-import ApolloClient from '../../ApolloClient';
+import { useApollo } from '../../nextApollo';
 import Layout from '../components/Layout';
 
 const spritemap = require('../assets/spritemap.svg');
 
 function MyApp({ Component, pageProps }) {
+  const apolloClient = useApollo(pageProps.initialApolloState);
   return (
     <ClayIconSpriteContext.Provider value={spritemap}>
-      <ApolloProvider client={ApolloClient}>
+      <ApolloProvider client={apolloClient}>
         <Layout>
           <Component {...pageProps} />
         </Layout>

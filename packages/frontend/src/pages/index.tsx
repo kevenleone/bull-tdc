@@ -61,19 +61,12 @@ const columns = [
 
 const actions = [
   {
-    action() {},
+    action() {
+      console.log('Oie');
+    },
     name: 'Edit',
   },
 ];
-
-const AddButton = () => (
-  <ClayButton>
-    <span className="inline-item inline-item-before">
-      <ClayIcon symbol="import" />
-    </span>
-    Import
-  </ClayButton>
-);
 
 const Order: React.FC = () => {
   const { data } = useQuery(getAllOrders);
@@ -82,6 +75,19 @@ const Order: React.FC = () => {
   const items = data?.getAllOrder || [];
 
   const withItems = !!items.length;
+
+  const toggleModal = () => {
+    setModalVisible(!modalVisible);
+  };
+
+  const AddButton = () => (
+    <ClayButton onClick={toggleModal}>
+      <span className="inline-item inline-item-before">
+        <ClayIcon symbol="import" />
+      </span>
+      Import
+    </ClayButton>
+  );
 
   return (
     <Page title="Order" addButton={AddButton}>
@@ -99,7 +105,7 @@ const Order: React.FC = () => {
         )}
       </div>
 
-      <Modal size="md" visible={modalVisible} toggle={() => setModalVisible(!modalVisible)} title="Import File">
+      <Modal visible={modalVisible} toggle={toggleModal} title="Import File">
         <div className="import-file">
           <div className="mb-4">
             <img src={ImportIllustration}></img>

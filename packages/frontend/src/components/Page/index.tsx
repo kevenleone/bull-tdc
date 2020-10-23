@@ -3,7 +3,15 @@ import ClayLayout from '@clayui/layout';
 import ClayPanel from '@clayui/panel';
 import React from 'react';
 
-export default function index({ addButton = () => <></>, onClickBack, children, title, withPanel }) {
+interface IPage {
+  addButton(): any;
+  onClickBack(): any;
+  children: React.ReactElement;
+  title: string;
+  withPanel: boolean;
+}
+
+const Page: React.FC = ({ addButton = () => <></>, onClickBack, children, title, withPanel }: IPage) => {
   return (
     <ClayLayout.ContainerFluid className="page-component">
       <ClayLayout.Row className="header">
@@ -25,4 +33,6 @@ export default function index({ addButton = () => <></>, onClickBack, children, 
       )}
     </ClayLayout.ContainerFluid>
   );
-}
+};
+
+export default Page;

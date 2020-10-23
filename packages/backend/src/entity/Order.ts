@@ -18,6 +18,10 @@ export class Order extends BaseEntity {
 
   @Field()
   @Column()
+  name: string;
+
+  @Field()
+  @Column()
   createdBy: string;
 
   @Field({ defaultValue: new Date().toISOString() })
