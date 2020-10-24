@@ -24,7 +24,9 @@ const BaseResolver = createBaseResolver('User', User, User, Inputs);
 @Resolver(User)
 export class UserResolver extends BaseResolver {
   @Mutation(() => User, { name: `createUser` })
-  async createUser(@Arg('data', () => CreateUserInput) data: CreateUserInput): Promise<User | undefined> {
+  async createUser(
+    @Arg('data', () => CreateUserInput) data: CreateUserInput,
+  ): Promise<User | undefined> {
     const { email, firstName } = data;
     let user = await User.findOne({
       where: {
@@ -44,7 +46,10 @@ export class UserResolver extends BaseResolver {
   }
 
   @Mutation(() => String)
-  async login(@Arg('email') email: string, @Arg('password') password: string): Promise<string | Error> {
+  async login(
+    @Arg('email') email: string,
+    @Arg('password') password: string,
+  ): Promise<string | Error> {
     const {
       CONSTANTS: { USER_NOT_FOUND, USER_PASSWORD_INVALID },
       JWT_SECRET,
@@ -65,7 +70,10 @@ export class UserResolver extends BaseResolver {
     delete userData.password;
 
     try {
-      const token: any = await promisify(jsonwebtoken.sign)(userData, JWT_SECRET);
+      const token: any = await promisify(jsonwebtoken.sign)(
+        userData,
+        JWT_SECRET,
+      );
       logger.info(`Token generated for ${email}`);
       return token;
     } catch (e) {
@@ -79,7 +87,11 @@ export class UserResolver extends BaseResolver {
     if (!user) {
       return false;
     }
-    Queue.add(JOB_RECOVERY_MAILER, { email, firstName: user.firstName, token: v4() });
+    Queue.add(JOB_RECOVERY_MAILER, {
+      email,
+      firstName: user.firstName,
+      token: v4(),
+    });
     return true;
   }
 }

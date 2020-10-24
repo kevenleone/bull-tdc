@@ -22,7 +22,9 @@ export const isAuth: MiddlewareFn<MyContext> = async (ctx, next) => {
       try {
         const user: any = await promisify(jwt.verify)(token, JWT_SECRET);
         ctx.context.req.headers.loggedUser = user;
-        logger.debug(`${user.firstName} is running a graphQL request to ${operationName}`);
+        logger.debug(
+          `${user.firstName} is running a graphQL request to ${operationName}`,
+        );
         return next();
       } catch (e) {
         throw new Error(AUTH_INVALID_TOKEN);

@@ -13,7 +13,15 @@ interface ModalProps {
   size?: Size;
 }
 
-const Modal = ({ children, first, last, size, title, toggle, visible }: ModalProps): ReactElement => {
+const Modal = ({
+  children,
+  first,
+  last,
+  size,
+  title,
+  toggle,
+  visible,
+}: ModalProps): ReactElement => {
   const { observer } = useModal({
     onClose: toggle,
   });

@@ -18,11 +18,18 @@ const statuses = {
   WAITING_WINDOW: 'secondary',
 };
 
+interface IOrder {
+  createdAt: string;
+  createdBy: string;
+  name: string;
+  services: Array<any>;
+}
+
 const getLabelColor = (label) => {
   return statuses[label];
 };
 
-const Order = ({ createdAt, createdBy, name, services }) => {
+const Order = ({ createdAt, name, services }: IOrder): React.ReactElement => {
   const router = useRouter();
   const [service, setService] = useState(services[0] || {});
 
@@ -44,10 +51,17 @@ const Order = ({ createdAt, createdBy, name, services }) => {
                 </h1>
               </div>
               {services.map((service) => (
-                <div key={service.id} className="service-list order-card mb-4" onClick={() => setService(service)}>
+                <div
+                  key={service.id}
+                  className="service-list order-card mb-4"
+                  onClick={() => setService(service)}
+                >
                   <p>
                     {service.name}
-                    <ClayLabel displayType={getLabelColor(service.status)} className="ml-2">
+                    <ClayLabel
+                      displayType={getLabelColor(service.status)}
+                      className="ml-2"
+                    >
                       {service.status}
                     </ClayLabel>
                   </p>
@@ -69,7 +83,9 @@ const Order = ({ createdAt, createdBy, name, services }) => {
                   </ClayLayout.Col>
                   <ClayLayout.Col>
                     <p>Status</p>
-                    <ClayLabel displayType={getLabelColor(service.status)}>{service.status}</ClayLabel>
+                    <ClayLabel displayType={getLabelColor(service.status)}>
+                      {service.status}
+                    </ClayLabel>
                   </ClayLayout.Col>
                 </ClayLayout.Row>
 

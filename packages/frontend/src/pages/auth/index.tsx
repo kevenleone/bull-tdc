@@ -7,7 +7,7 @@ import Recovery from './_Recovery';
 import SignIn from './_SignIn';
 import SignUp from './_SignUp';
 
-export default function index() {
+const Auth: React.FC = () => {
   const defaultPage = 'SignIn';
   const [pageType, setPageType] = useState(defaultPage);
 
@@ -29,7 +29,9 @@ export default function index() {
                 />
                 {pageType === 'SignIn' && <SignIn setPageType={setPageType} />}
                 {pageType === 'SignUp' && <SignUp setPageType={setPageType} />}
-                {pageType === 'Recovery' && <Recovery setPageType={setPageType} />}
+                {pageType === 'Recovery' && (
+                  <Recovery setPageType={setPageType} />
+                )}
 
                 <div className="signin__footer">
                   <p>Copyright 2020. All Rights Reserverd.</p>
@@ -43,4 +45,6 @@ export default function index() {
       </ClayLayout.Row>
     </div>
   );
-}
+};
+
+export default Auth;

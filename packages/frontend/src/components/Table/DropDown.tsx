@@ -8,7 +8,17 @@ import DropDownAction from './DropDownAction';
 
 const { ItemList } = ClayDropDown;
 
-const Component = ({ actions = [], item, noActionsMessage }) => {
+interface IDropDown {
+  actions: Array<any>;
+  item: any;
+  noActionsMessage?: string;
+}
+
+const Component = ({
+  actions = [],
+  item,
+  noActionsMessage,
+}: IDropDown): React.ReactElement => {
   const [active, setActive] = useState(false);
 
   const DropdownButton = (
@@ -17,7 +27,9 @@ const Component = ({ actions = [], item, noActionsMessage }) => {
     </Button>
   );
 
-  actions = actions.filter((action) => (action.show ? action.show(item) : true));
+  actions = actions.filter((action) =>
+    action.show ? action.show(item) : true,
+  );
 
   if (actions.length === 0) {
     return (
@@ -42,7 +54,12 @@ const Component = ({ actions = [], item, noActionsMessage }) => {
     >
       <ItemList>
         {actions.map((action, index) => (
-          <DropDownAction action={action} item={item} key={index} setActive={setActive} />
+          <DropDownAction
+            action={action}
+            item={item}
+            key={index}
+            setActive={setActive}
+          />
         ))}
       </ItemList>
     </ClayDropDown>

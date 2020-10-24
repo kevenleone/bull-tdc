@@ -44,7 +44,9 @@ const queueConfig = {
         }
 
         case Status.IN_EXECUTION: {
-          newStatus = faker.random.boolean() ? Status.WAITING_WINDOW : Status.DISCARDED;
+          newStatus = faker.random.boolean()
+            ? Status.WAITING_WINDOW
+            : Status.DISCARDED;
           break;
         }
 
@@ -55,7 +57,10 @@ const queueConfig = {
       }
 
       if (service.status !== newStatus) {
-        Queue.add(statuses[newStatus], { after: newStatus, before: service.status });
+        Queue.add(statuses[newStatus], {
+          after: newStatus,
+          before: service.status,
+        });
         service.status = newStatus;
         service.save();
       }

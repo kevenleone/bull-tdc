@@ -3,7 +3,20 @@ import React from 'react';
 
 const { Divider, Item } = ClayDropDown;
 
-export default ({ action: { action, name }, item, setActive }) => {
+interface IDropDownAction {
+  item: any;
+  setActive(param: any): any;
+  action: {
+    action(param: any): any;
+    name: string | Function;
+  };
+}
+
+const DropDownAction = ({
+  action: { action, name },
+  item,
+  setActive,
+}: IDropDownAction): React.ReactElement => {
   if (name === 'divider') {
     return <Divider />;
   }
@@ -23,3 +36,5 @@ export default ({ action: { action, name }, item, setActive }) => {
     </Item>
   );
 };
+
+export default DropDownAction;

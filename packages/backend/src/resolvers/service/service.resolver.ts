@@ -3,7 +3,11 @@ import { Resolver } from 'type-graphql';
 import Service from '~/entity/Service';
 import { createBaseResolver } from '~/utils/createBaseResolver';
 
-import { CreateServiceInput, FilterServiceInput, UpdateServiceInput } from './Inputs';
+import {
+  CreateServiceInput,
+  FilterServiceInput,
+  UpdateServiceInput,
+} from './Inputs';
 
 const Inputs = {
   create: CreateServiceInput,

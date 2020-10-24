@@ -3,7 +3,9 @@ import ClayForm, { ClayInput } from '@clayui/form';
 import ClayLayout from '@clayui/layout';
 import React from 'react';
 
-export default function _SignUp({ setPageType }) {
+import { IProps } from './_common';
+
+const SignUp = ({ setPageType }: IProps): React.ReactElement => {
   return (
     <div>
       <h1>Create Account</h1>
@@ -30,12 +32,20 @@ export default function _SignUp({ setPageType }) {
         </ClayLayout.Row>
         <ClayLayout.Row className="signin__navigation_buttons">
           <ClayLayout.Col>
-            <ClayButton onClick={() => setPageType('SignIn')} displayType="unstyled" className="btn-link">
+            <ClayButton
+              onClick={() => setPageType('SignIn')}
+              displayType="unstyled"
+              className="btn-link"
+            >
               Sign In
             </ClayButton>
           </ClayLayout.Col>
           <ClayLayout.Col style={{ textAlign: 'end' }}>
-            <ClayButton onClick={() => setPageType('Recovery')} displayType="unstyled" className="btn-link">
+            <ClayButton
+              onClick={() => setPageType('Recovery')}
+              displayType="unstyled"
+              className="btn-link"
+            >
               Forgot Password
             </ClayButton>
           </ClayLayout.Col>
@@ -43,4 +53,6 @@ export default function _SignUp({ setPageType }) {
       </ClayForm>
     </div>
   );
-}
+};
+
+export default SignUp;

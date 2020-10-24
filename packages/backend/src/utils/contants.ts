@@ -3,7 +3,8 @@ export default {
 
   AUTH_NOT_FOUND: 'Authorization Header not found',
   JOB_IMPORT_ORDER: 'JOB_IMPORT_ORDER',
-  JOB_NOT_FOUND: (name: string): string => `JOB ${name.toUpperCase()} NOT FOUND`,
+  JOB_NOT_FOUND: (name: string): string =>
+    `JOB ${name.toUpperCase()} NOT FOUND`,
   JOB_PURGE: 'JOB_PURGE',
 
   JOB_RECOVERY_MAILER: 'JOB_RECOVERY_MAILER',

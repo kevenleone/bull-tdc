@@ -1,4 +1,11 @@
-import { Arg, ClassType, Mutation, Query, Resolver, UseMiddleware } from 'type-graphql';
+import {
+  Arg,
+  ClassType,
+  Mutation,
+  Query,
+  Resolver,
+  UseMiddleware,
+} from 'type-graphql';
 
 import { MiddlewareBaseResolver, PaginationQL } from '~/interfaces';
 import { isAuth } from '~/middlewares/isAuth';
@@ -29,13 +36,17 @@ export function createBaseResolver<classType extends ClassType>(
 
     @UseMiddleware(isAuth)
     @Query(() => [returnType], { name: `getAll${suffix}Filter` })
-    async getAllFiltered(@Arg('data', () => inputTypes.filter || inputTypes.create) data: any): Promise<ClassType[]> {
+    async getAllFiltered(
+      @Arg('data', () => inputTypes.filter || inputTypes.create) data: any,
+    ): Promise<ClassType[]> {
       return entity.find({ where: data });
     }
 
     @UseMiddleware(isAuth)
     @Query(() => [returnType], { name: `getAll${suffix}Paginate` })
-    async getAllPagination(@Arg('data', () => PaginationQL) data: PaginationQL): Promise<ClassType[]> {
+    async getAllPagination(
+      @Arg('data', () => PaginationQL) data: PaginationQL,
+    ): Promise<ClassType[]> {
       const { skip, take } = normalizePagination(data);
       return entity.find({ skip, take });
     }
@@ -52,7 +63,9 @@ export function createBaseResolver<classType extends ClassType>(
 
     @UseMiddleware(isAuth)
     @Mutation(() => returnType, { name: `create${suffix}` })
-    async create(@Arg('data', () => inputTypes.create) data: any): Promise<ClassType> {
+    async create(
+      @Arg('data', () => inputTypes.create) data: any,
+    ): Promise<ClassType> {
       if (middlewares && middlewares.create) {
         await execMiddleware(entity, data, ...middlewares.create);
       }
@@ -61,14 +74,19 @@ export function createBaseResolver<classType extends ClassType>(
 
     @UseMiddleware(isAuth)
     @Mutation(() => returnType, { name: `updateBy${suffix}ID` })
-    async updateByID(@Arg('data', () => inputTypes.update) data: any, @Arg('id') id: string): Promise<ClassType> {
+    async updateByID(
+      @Arg('data', () => inputTypes.update) data: any,
+      @Arg('id') id: string,
+    ): Promise<ClassType> {
       const entityData = await this.get(id);
       return this.update(data, entityData);
     }
 
     @UseMiddleware(isAuth)
     @Mutation(() => [returnType], { name: `createMulti${suffix}` })
-    async createMulti(@Arg('data', () => [inputTypes.create]) data: any[]): Promise<ClassType[]> {
+    async createMulti(
+      @Arg('data', () => [inputTypes.create]) data: any[],
+    ): Promise<ClassType[]> {
       const promises = data.map((obj) => entity.create(obj).save());
       const insertedData = await Promise.all(promises);
       return insertedData;

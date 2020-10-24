@@ -27,10 +27,14 @@ import { createTypeormConn } from '~/utils/typeORMConn';
     context: ({ req, res }: any) => ({ req, res }),
     formatError: (error) => {
       const { message, path } = error;
-      logger.error(`Message: ${message.toUpperCase()} / On Path: ${JSON.stringify(path)}`);
+      logger.error(
+        `Message: ${message.toUpperCase()} / On Path: ${JSON.stringify(path)}`,
+      );
       return error;
     },
-    playground: RUN_PLAYGROUND ? { title: APP_NAME, workspaceName: ENVIRONMENT } : false,
+    playground: RUN_PLAYGROUND
+      ? { title: APP_NAME, workspaceName: ENVIRONMENT }
+      : false,
     schema: await createSchema(),
   };
 
@@ -48,7 +52,9 @@ import { createTypeormConn } from '~/utils/typeORMConn';
 
   server.use('/admin/queues', BullRouter);
 
-  server.get('/', (_, res) => res.json({ message: `${defaults.APP_NAME} is Running` }));
+  server.get('/', (_, res) =>
+    res.json({ message: `${defaults.APP_NAME} is Running` }),
+  );
 
   server.listen(httpPort, () => {
     logger.debug(`${APP_NAME} has started | PORT: ${httpPort}`);

@@ -11,7 +11,13 @@ interface ITable {
   items: Array<any>;
 }
 
-const TableComponent = ({ borderless, className, actions, columns = [], items = [] }: ITable): React.ReactElement => {
+const TableComponent = ({
+  borderless,
+  className,
+  actions,
+  columns = [],
+  items = [],
+}: ITable): React.ReactElement => {
   return (
     <ClayTable className={className} borderless={borderless}>
       <ClayTable.Head>

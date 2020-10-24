@@ -3,7 +3,10 @@ import { config } from 'dotenv';
 import CONSTANTS from '~/utils/contants';
 config();
 
-function normalizeBool(value: string | undefined, defaultValue: boolean): boolean {
+function normalizeBool(
+  value: string | undefined,
+  defaultValue: boolean,
+): boolean {
   const expectedBooleans = ['false', 'true'];
   if (value && expectedBooleans.indexOf(value) > -1) {
     return JSON.parse(value);

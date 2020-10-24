@@ -12,7 +12,11 @@ import { createTypeormConn } from '~/utils/typeORMConn';
 
 import { ctx, next } from '../../../test.utils';
 
-const { JOB_REGISTRATION_MAILER, USER_NOT_FOUND, USER_PASSWORD_INVALID } = constants;
+const {
+  JOB_REGISTRATION_MAILER,
+  USER_NOT_FOUND,
+  USER_PASSWORD_INVALID,
+} = constants;
 const { createUser, forgotPassword, login } = new UserResolver();
 const INVALID_EMAIL = 'invalid@email.com';
 const user: any = {};
@@ -79,7 +83,10 @@ describe('Should test user resolver', () => {
     };
     const spy = jest.spyOn(Queue, 'add').mockImplementation(() => ({}));
     const response = await createUser(_user);
-    expect(spy).toBeCalledWith(JOB_REGISTRATION_MAILER, { firstName: _user.firstName, email: _user.email });
+    expect(spy).toBeCalledWith(JOB_REGISTRATION_MAILER, {
+      firstName: _user.firstName,
+      email: _user.email,
+    });
     spy.mockRestore();
     expect(response).toBeTruthy();
     const users = await User.find();

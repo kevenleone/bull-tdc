@@ -4,24 +4,38 @@ import ClayPanel from '@clayui/panel';
 import React from 'react';
 
 interface IPage {
-  addButton(): any;
-  onClickBack(): any;
+  addButton?(): any;
+  onClickBack?(): any;
   children: React.ReactElement;
   title: string;
-  withPanel: boolean;
+  withPanel?: boolean;
 }
 
-const Page: React.FC = ({ addButton = () => <></>, onClickBack, children, title, withPanel }: IPage) => {
+const Page = ({
+  addButton = () => <></>,
+  onClickBack,
+  children,
+  title,
+  withPanel,
+}: IPage): React.ReactElement => {
   return (
     <ClayLayout.ContainerFluid className="page-component">
       <ClayLayout.Row className="header">
         <ClayLayout.Col lg={8} xl={10}>
           <div className="page-title">
-            <ClayButtonWithIcon onClick={onClickBack} symbol="angle-left" displayType="unstyled" />
+            {onClickBack && (
+              <ClayButtonWithIcon
+                onClick={onClickBack}
+                symbol="angle-left"
+                displayType="unstyled"
+              />
+            )}
             <h1>{title}</h1>
           </div>
         </ClayLayout.Col>
-        <ClayLayout.Col style={{ marginTop: -7, textAlign: 'end' }}>{addButton()}</ClayLayout.Col>
+        <ClayLayout.Col style={{ marginTop: -7, textAlign: 'end' }}>
+          {addButton()}
+        </ClayLayout.Col>
       </ClayLayout.Row>
 
       {withPanel ? (

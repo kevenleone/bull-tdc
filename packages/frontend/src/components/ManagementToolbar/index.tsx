@@ -3,19 +3,26 @@ import { ClayDropDownWithItems } from '@clayui/drop-down';
 import { ClayInput } from '@clayui/form';
 import ClayIcon from '@clayui/icon';
 import ClayLabel from '@clayui/label';
-import ClayManagementToolbar, { ClayResultsBar } from '@clayui/management-toolbar';
+import ClayManagementToolbar, {
+  ClayResultsBar,
+} from '@clayui/management-toolbar';
 import React, { useState } from 'react';
 
 interface ManagementToolbarProps {
   searchText?: string;
-  searchMode?: boolean;
   orderBy?: boolean;
   listType?: string;
   info?: boolean;
   addButton?: React.ReactElement;
 }
 
-const Component = ({ addButton, info, listType, orderBy, searchMode, searchText }: ManagementToolbarProps) => {
+const Component = ({
+  addButton,
+  info,
+  listType,
+  orderBy,
+  searchText,
+}: ManagementToolbarProps): React.ReactElement => {
   const filterItems = [
     { label: 'Filter Action 1', onClick: () => alert('Filter clicked') },
     { label: 'Filter Action 2', onClick: () => alert('Filter clicked') },
@@ -53,9 +60,14 @@ const Component = ({ addButton, info, listType, orderBy, searchMode, searchText 
             trigger={
               <ClayButton className="nav-link" displayType="unstyled">
                 <span className="navbar-breakpoint-down-d-none">
-                  <span className="navbar-text-truncate">{'Filter and Order'}</span>
+                  <span className="navbar-text-truncate">
+                    {'Filter and Order'}
+                  </span>
 
-                  <ClayIcon className="inline-item inline-item-after" symbol="caret-bottom" />
+                  <ClayIcon
+                    className="inline-item inline-item-after"
+                    symbol="caret-bottom"
+                  />
                 </span>
                 <span className="navbar-breakpoint-d-none">
                   <ClayIcon symbol="filter" />
@@ -66,7 +78,10 @@ const Component = ({ addButton, info, listType, orderBy, searchMode, searchText 
 
           {orderBy && (
             <ClayManagementToolbar.Item>
-              <ClayButton className="nav-link nav-link-monospaced order-arrow-down-active" displayType="unstyled">
+              <ClayButton
+                className="nav-link nav-link-monospaced order-arrow-down-active"
+                displayType="unstyled"
+              >
                 <ClayIcon symbol="order-arrow" />
               </ClayButton>
             </ClayManagementToolbar.Item>
@@ -89,7 +104,11 @@ const Component = ({ addButton, info, listType, orderBy, searchMode, searchText 
                   onClick={() => setSearchMobile(false)}
                   symbol="times"
                 />
-                <ClayButtonWithIcon displayType="unstyled" symbol="search" type="submit" />
+                <ClayButtonWithIcon
+                  displayType="unstyled"
+                  symbol="search"
+                  type="submit"
+                />
               </ClayInput.GroupInsetItem>
             </ClayInput.GroupItem>
           </ClayInput.Group>
@@ -108,7 +127,11 @@ const Component = ({ addButton, info, listType, orderBy, searchMode, searchText 
 
           {info && (
             <ClayManagementToolbar.Item>
-              <ClayButton className="nav-link nav-link-monospaced" displayType="unstyled" onClick={() => {}}>
+              <ClayButton
+                className="nav-link nav-link-monospaced"
+                displayType="unstyled"
+                onClick={() => {}}
+              >
                 <ClayIcon symbol="info-circle-open" />
               </ClayButton>
             </ClayManagementToolbar.Item>
@@ -119,8 +142,13 @@ const Component = ({ addButton, info, listType, orderBy, searchMode, searchText 
               <ClayDropDownWithItems
                 items={viewTypes}
                 trigger={
-                  <ClayButton className="nav-link-monospaced nav-link" displayType="unstyled">
-                    <ClayIcon symbol={viewTypeActive ? viewTypeActive.symbolLeft : ''} />
+                  <ClayButton
+                    className="nav-link-monospaced nav-link"
+                    displayType="unstyled"
+                  >
+                    <ClayIcon
+                      symbol={viewTypeActive ? viewTypeActive.symbolLeft : ''}
+                    />
                   </ClayButton>
                 }
               />
@@ -129,7 +157,10 @@ const Component = ({ addButton, info, listType, orderBy, searchMode, searchText 
 
           {addButton && (
             <ClayManagementToolbar.Item onClick={addButton}>
-              <ClayButtonWithIcon className="nav-btn nav-btn-monospaced" symbol="plus" />
+              <ClayButtonWithIcon
+                className="nav-btn nav-btn-monospaced"
+                symbol="plus"
+              />
             </ClayManagementToolbar.Item>
           )}
         </ClayManagementToolbar.ItemList>
@@ -147,12 +178,18 @@ const Component = ({ addButton, info, listType, orderBy, searchMode, searchText 
             </span>
           </ClayResultsBar.Item>
           <ClayResultsBar.Item expand>
-            <ClayLabel className="component-label tbar-label" displayType="unstyled">
+            <ClayLabel
+              className="component-label tbar-label"
+              displayType="unstyled"
+            >
               {'Filter'}
             </ClayLabel>
           </ClayResultsBar.Item>
           <ClayResultsBar.Item>
-            <ClayButton className="component-link tbar-link" displayType="unstyled">
+            <ClayButton
+              className="component-link tbar-link"
+              displayType="unstyled"
+            >
               {'Clear'}
             </ClayButton>
           </ClayResultsBar.Item>

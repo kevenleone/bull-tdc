@@ -3,7 +3,11 @@ import WinstonDailyRotateFile from 'winston-daily-rotate-file';
 
 const logger = winston.createLogger({
   level: 'debug',
-  format: winston.format.combine(winston.format.timestamp(), winston.format.json(), winston.format.colorize()),
+  format: winston.format.combine(
+    winston.format.timestamp(),
+    winston.format.json(),
+    winston.format.colorize(),
+  ),
   transports: [
     new WinstonDailyRotateFile({
       auditFile: './log/audit.json',

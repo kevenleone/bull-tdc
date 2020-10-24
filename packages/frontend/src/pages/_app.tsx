@@ -10,7 +10,7 @@ import Layout from '../components/Layout';
 
 const spritemap = require('../assets/spritemap.svg');
 
-function MyApp({ Component, pageProps }) {
+const MyApp = ({ Component, pageProps }): React.ReactElement => {
   const apolloClient = useApollo(pageProps.initialApolloState);
   return (
     <ClayIconSpriteContext.Provider value={spritemap}>
@@ -21,6 +21,6 @@ function MyApp({ Component, pageProps }) {
       </ApolloProvider>
     </ClayIconSpriteContext.Provider>
   );
-}
+};
 
 export default MyApp;

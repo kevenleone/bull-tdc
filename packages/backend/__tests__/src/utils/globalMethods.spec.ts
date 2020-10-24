@@ -1,5 +1,8 @@
 import { Pagination } from '~/interfaces';
-import { getGraphqlOperation, normalizePagination } from '~/utils/globalMethods';
+import {
+  getGraphqlOperation,
+  normalizePagination,
+} from '~/utils/globalMethods';
 
 const page: Pagination = {
   pageIndex: 1,

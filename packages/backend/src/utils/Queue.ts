@@ -10,7 +10,14 @@ const redisOptions = {
 };
 
 const getQueueData = (job: any) => {
-  const { active = true, config, data, handle, name, selfRegister = false }: any = job;
+  const {
+    active = true,
+    config,
+    data,
+    handle,
+    name,
+    selfRegister = false,
+  }: any = job;
   const bull = new Queue(name, { connection: { ...redisOptions } });
 
   if (selfRegister && active) {

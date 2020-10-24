@@ -38,7 +38,10 @@ const columns = [
     render: (value, { id }) => (
       <>
         <ClaySticker displayType="light" shape="circle" size="sm">
-          <img className="sticker-img" src="https://avatars2.githubusercontent.com/u/22279592?v=4" />
+          <img
+            className="sticker-img"
+            src="https://avatars2.githubusercontent.com/u/22279592?v=4"
+          />
         </ClaySticker>
 
         <Link href={`/order/${id}`}>
@@ -54,7 +57,9 @@ const columns = [
   },
   {
     key: 'status',
-    render: (status) => <ClayLabel displayType={StatusTypeDisplay[status]}>{status}</ClayLabel>,
+    render: (status) => (
+      <ClayLabel displayType={StatusTypeDisplay[status]}>{status}</ClayLabel>
+    ),
     value: 'Status',
   },
 ];
@@ -96,10 +101,15 @@ const Order: React.FC = () => {
       </Head>
       <div className="mt-4 p-4" style={{ backgroundColor: 'white' }}>
         <ManagementToolbar orderBy />
-        {withItems && <Table borderless actions={actions} columns={columns} items={items} />}
+        {withItems && (
+          <Table borderless actions={actions} columns={columns} items={items} />
+        )}
 
         {!withItems && (
-          <EmptyState description="Please, import a supported file" title="No orders yet">
+          <EmptyState
+            description="Please, import a supported file"
+            title="No orders yet"
+          >
             {AddButton()}
           </EmptyState>
         )}
