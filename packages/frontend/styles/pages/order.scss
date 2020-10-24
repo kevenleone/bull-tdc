@@ -5,6 +5,12 @@
 .order-list {
     background-color: white;
     height: 85vh;
+    overflow: auto;
+
+}
+
+.service-list {
+    cursor: pointer;
 }
 
 .order-card {

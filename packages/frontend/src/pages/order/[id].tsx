@@ -1,15 +1,30 @@
 import { gql } from '@apollo/client';
+import ClayBadge from '@clayui/badge';
 import ClayLabel from '@clayui/label';
 import ClayLayout from '@clayui/layout';
+import moment from 'moment';
 import Head from 'next/head';
 import { useRouter } from 'next/router';
-import React from 'react';
+import React, { useState } from 'react';
 
 import { initializeApollo } from '../../../nextApollo';
 import Page from '../../components/Page';
 
-const Order = ({ createdBy, name, services }) => {
+const statuses = {
+  COMPLETE: 'success',
+  CREATED: 'primary',
+  DISCARDED: 'danger',
+  IN_EXECUTION: 'warning',
+  WAITING_WINDOW: 'secondary',
+};
+
+const getLabelColor = (label) => {
+  return statuses[label];
+};
+
+const Order = ({ createdAt, createdBy, name, services }) => {
   const router = useRouter();
+  const [service, setService] = useState(services[0] || {});
 
   return (
     <Page onClickBack={() => router.push('/')} title={name}>
@@ -21,14 +36,22 @@ const Order = ({ createdBy, name, services }) => {
           <ClayLayout.Col xl={4} className="order-list">
             <div className="p-3">
               <div className="mt-2 mb-4">
-                <h1>Service</h1>
+                <h1 className="d-flex">
+                  Services
+                  <div style={{ marginLeft: 10, marginTop: -3 }}>
+                    <ClayBadge displayType="info" label={services.length} />
+                  </div>
+                </h1>
               </div>
               {services.map((service) => (
-                <div className="order-card mb-4">
+                <div key={service.id} className="service-list order-card mb-4" onClick={() => setService(service)}>
                   <p>
-                    Service Name 1 <ClayLabel className="ml-2">{service.status}</ClayLabel>
+                    {service.name}
+                    <ClayLabel displayType={getLabelColor(service.status)} className="ml-2">
+                      {service.status}
+                    </ClayLabel>
                   </p>
-                  <span>1 hour ago</span>
+                  <span>{moment(createdAt).fromNow()}</span>
                 </div>
               ))}
             </div>
@@ -36,39 +59,35 @@ const Order = ({ createdBy, name, services }) => {
           <ClayLayout.Col className="order-details">
             <div className="p-3">
               <div className="mt-2 mb-4">
-                <h1>Service Name 1</h1>
+                <h1>{service.name}</h1>
               </div>
               <div className="order-card">
                 <ClayLayout.Row className="order-info">
                   <ClayLayout.Col>
                     <p>Created Data</p>
-                    <span>1 hour ago</span>
+                    <span>{moment(service.createdAt).fromNow()}</span>
                   </ClayLayout.Col>
                   <ClayLayout.Col>
                     <p>Status</p>
-                    <ClayLabel>Status</ClayLabel>
+                    <ClayLabel displayType={getLabelColor(service.status)}>{service.status}</ClayLabel>
                   </ClayLayout.Col>
                 </ClayLayout.Row>
 
                 <ClayLayout.Row className="order-info">
                   <ClayLayout.Col>
                     <p>Assigned</p>
-                    <span>Keven Leone</span>
+                    <span>{service.assinedTo}</span>
                   </ClayLayout.Col>
                   <ClayLayout.Col>
                     <p>Service Type</p>
-                    <span>Fix</span>
+                    <span>{service.type}</span>
                   </ClayLayout.Col>
                 </ClayLayout.Row>
 
                 <ClayLayout.Row className="order-info">
                   <ClayLayout.Col>
                     <p>Description</p>
-                    <span>
-                      Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut
-                      labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris
-                      nisi ut aliquip ex ea commodo consequat.
-                    </span>
+                    <span>{service.description}</span>
                   </ClayLayout.Col>
                 </ClayLayout.Row>
               </div>
@@ -98,9 +117,11 @@ Order.getInitialProps = async ({ query: { id } }) => {
         status
         services {
           id
+          name
           orderId
+          assinedTo
           createdAt
-          serviceType
+          type
           description
           status
         }
@@ -115,6 +136,8 @@ Order.getInitialProps = async ({ query: { id } }) => {
     });
 
     const { getOrder } = data;
+
+    console.log(getOrder);
 
     return { ...getOrder, loading };
   } catch (e) {

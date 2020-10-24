@@ -7,12 +7,13 @@ import { constants } from '~/utils/globalMethods';
 const generateFakeServices = (orderId: string, total = 10): Service[] => {
   return [...new Array(total)].map(() => {
     return Service.create({
+      assinedTo: `${faker.name.firstName()} ${faker.name.lastName()}`,
       createdAt: new Date(),
       description: faker.lorem.lines(3),
       name: `${faker.name.firstName()} ${faker.name.lastName()}`,
       orderId,
-      serviceType: faker.random.words(2),
       status: ServiceStatus.CREATED,
+      type: faker.random.words(2),
     });
   });
 };
@@ -27,7 +28,7 @@ const handle = async ({ data }: any): Promise<void> => {
     order.modifiedAt = new Date();
     order.save();
 
-    const services = generateFakeServices(id, 3);
+    const services = generateFakeServices(id, 25);
 
     for (const service of services) {
       service.save();

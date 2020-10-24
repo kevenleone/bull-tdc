@@ -29,13 +29,17 @@ export default class Service extends BaseEntity {
   @Column()
   name: string;
 
+  @Field()
+  @Column()
+  assinedTo: string;
+
   @Field({ defaultValue: new Date() })
   @Column()
   createdAt: Date;
 
   @Field()
   @Column()
-  serviceType: string;
+  type: string;
 
   @Field()
   @Column()

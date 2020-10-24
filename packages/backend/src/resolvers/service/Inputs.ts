@@ -11,7 +11,10 @@ class ServiceBaseInput {
   name: string;
 
   @Field()
-  serviceType: string;
+  type: string;
+
+  @Field()
+  assinedTo: string;
 
   @Field()
   description: string;
@@ -32,5 +35,5 @@ export class FilterServiceInput {
   name: string;
 
   @Field()
-  serviceType: string;
+  type: string;
 }
