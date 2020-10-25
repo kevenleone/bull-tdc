@@ -1,33 +1,82 @@
+import { gql, useMutation } from '@apollo/client';
 import ClayButton from '@clayui/button';
 import ClayForm, { ClayInput } from '@clayui/form';
 import ClayLayout from '@clayui/layout';
-import React from 'react';
+import { useRouter } from 'next/router';
+import React, { useState } from 'react';
+import { toast } from 'react-toastify';
 
 import { IProps } from './_common';
 
+const SignUpMutation = gql`
+  mutation CreateUser($data: CreateUserInput!) {
+    createUser(data: $data) {
+      id
+    }
+  }
+`;
+
 const SignUp = ({ setPageType }: IProps): React.ReactElement => {
+  const [form, setForm] = useState({
+    email: '',
+    password: '',
+    screen_name: '',
+  });
+  const [signUpUser] = useMutation(SignUpMutation);
+  const router = useRouter();
+
+  const onChange = ({ target: { name, value } }) => {
+    setForm({
+      ...form,
+      [name]: value,
+    });
+  };
+
+  const onSubmit = async (e) => {
+    e.preventDefault();
+    try {
+      const { email, password, screen_name } = form;
+      const [firstName, ...lastName] = screen_name.split(' ');
+      await signUpUser({
+        variables: {
+          data: {
+            email,
+            firstName,
+            lastName: lastName.join(' '),
+            password,
+          },
+        },
+      });
+      setPageType('SignIn');
+    } catch (e) {
+      toast.error(e.message);
+    }
+  };
+
   return (
     <div>
       <h1>Create Account</h1>
-      <ClayForm className="mt-5">
+      <ClayForm onSubmit={onSubmit} className="mt-5">
         <ClayForm.Group>
           <label htmlFor="email">Screen Name</label>
-          <ClayInput name="screen_name" type="text" />
+          <ClayInput onChange={onChange} name="screen_name" type="text" />
         </ClayForm.Group>
         <ClayForm.Group>
           <label htmlFor="email">Email</label>
-          <ClayInput name="email" type="text" />
+          <ClayInput onChange={onChange} name="email" type="text" />
         </ClayForm.Group>
         <ClayForm.Group>
           <label htmlFor="password">Password</label>
-          <ClayInput name="password" type="password" />
+          <ClayInput onChange={onChange} name="password" type="password" />
         </ClayForm.Group>
         <ClayLayout.Row>
           <ClayLayout.Col xl={5}>
             <ClayButton className="btn-block">Cancel</ClayButton>
           </ClayLayout.Col>
           <ClayLayout.Col xl={7}>
-            <ClayButton className="btn-block">Create</ClayButton>
+            <ClayButton onClick={onSubmit} className="btn-block">
+              Create
+            </ClayButton>
           </ClayLayout.Col>
         </ClayLayout.Row>
         <ClayLayout.Row className="signin__navigation_buttons">

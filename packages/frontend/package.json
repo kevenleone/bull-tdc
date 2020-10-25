@@ -33,6 +33,7 @@
     "next-images": "^1.6.0",
     "react": "16.14.0",
     "react-dom": "16.14.0",
+    "react-toastify": "^6.0.9",
     "sass": "^1.27.0"
   },
   "devDependencies": {

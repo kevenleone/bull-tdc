@@ -1,9 +1,11 @@
 import '../../styles/globals.scss';
 import '@clayui/css/lib/css/atlas.css';
+import 'react-toastify/dist/ReactToastify.css';
 
 import { ApolloProvider } from '@apollo/client';
 import { ClayIconSpriteContext } from '@clayui/icon';
 import React from 'react';
+import { ToastContainer } from 'react-toastify';
 
 import { useApollo } from '../../nextApollo';
 import Layout from '../components/Layout';
@@ -15,6 +17,7 @@ const MyApp = ({ Component, pageProps }): React.ReactElement => {
   return (
     <ClayIconSpriteContext.Provider value={spritemap}>
       <ApolloProvider client={apolloClient}>
+        <ToastContainer position="bottom-left" />
         <Layout>
           <Component {...pageProps} />
         </Layout>

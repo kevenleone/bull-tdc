@@ -11,12 +11,19 @@ import Queue from '~/utils/Queue';
 
 import { CreateUserInput, FilterUserInput, UpdateUserInput } from './Inputs';
 
-const { JOB_RECOVERY_MAILER, JOB_REGISTRATION_MAILER } = constants;
+const { JWT_SECRET } = defaults;
+
+const {
+  JOB_RECOVERY_MAILER,
+  JOB_REGISTRATION_MAILER,
+  USER_NOT_FOUND,
+  USER_PASSWORD_INVALID,
+} = constants;
 
 const Inputs = {
   create: CreateUserInput,
-  update: UpdateUserInput,
   filter: FilterUserInput,
+  update: UpdateUserInput,
 };
 
 const BaseResolver = createBaseResolver('User', User, User, Inputs);
@@ -34,14 +41,16 @@ export class UserResolver extends BaseResolver {
       },
     });
 
-    if (!user) {
-      const hashedPassword = await bcrypt.hash(data.password, 12);
-      user = await super.create({
-        ...data,
-        password: hashedPassword,
-      });
-      Queue.add(JOB_REGISTRATION_MAILER, { email, firstName });
+    if (user) {
+      throw new Error('User Already exists');
     }
+
+    const hashedPassword = await bcrypt.hash(data.password, 12);
+    user = await super.create({
+      ...data,
+      password: hashedPassword,
+    });
+    Queue.add(JOB_REGISTRATION_MAILER, { email, firstName });
     return user;
   }
 
@@ -50,10 +59,6 @@ export class UserResolver extends BaseResolver {
     @Arg('email') email: string,
     @Arg('password') password: string,
   ): Promise<string | Error> {
-    const {
-      CONSTANTS: { USER_NOT_FOUND, USER_PASSWORD_INVALID },
-      JWT_SECRET,
-    } = defaults;
     const user = await User.findOne({ where: { email } });
 
     if (!user) {
@@ -85,7 +90,7 @@ export class UserResolver extends BaseResolver {
   async forgotPassword(@Arg('email') email: string): Promise<boolean> {
     const user = await User.findOne({ where: { email } });
     if (!user) {
-      return false;
+      throw new Error(USER_NOT_FOUND);
     }
     Queue.add(JOB_RECOVERY_MAILER, {
       email,
