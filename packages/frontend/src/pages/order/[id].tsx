@@ -1,4 +1,4 @@
-import { gql } from '@apollo/client';
+import { useQuery } from '@apollo/client';
 import ClayBadge from '@clayui/badge';
 import ClayLabel from '@clayui/label';
 import ClayLayout from '@clayui/layout';
@@ -8,7 +8,7 @@ import { useRouter } from 'next/router';
 import React, { useState } from 'react';
 
 import Page from '../../components/Page';
-import { initializeApollo } from '../../graphql/nextApollo';
+import { getOrderQuery } from '../../graphql/schemas';
 
 const statuses = {
   COMPLETE: 'success',
@@ -18,19 +18,24 @@ const statuses = {
   WAITING_WINDOW: 'secondary',
 };
 
-interface IOrder {
-  createdAt: string;
-  createdBy: string;
-  name: string;
-  services: Array<any>;
-}
-
 const getLabelColor = (label) => {
   return statuses[label];
 };
 
-const Order = ({ createdAt, name, services }: IOrder): React.ReactElement => {
+interface IOrder {
+  id: string;
+}
+
+const Order = ({ id }: IOrder): React.ReactElement => {
   const router = useRouter();
+  const { data = {} } = useQuery(getOrderQuery, {
+    pollInterval: 15000,
+    variables: { id },
+  });
+
+  const { getOrder = { services: [] } } = data;
+  const { createdAt, name, services } = getOrder;
+
   const [service, setService] = useState(services[0] || {});
 
   return (
@@ -116,49 +121,7 @@ const Order = ({ createdAt, name, services }: IOrder): React.ReactElement => {
 };
 
 Order.getInitialProps = async ({ query: { id } }) => {
-  const apolloClient = initializeApollo();
-  const defaultState = {
-    loading: false,
-    services: [],
-  };
-
-  const getOrderQuery = gql`
-    query getOrder($id: String!) {
-      getOrder(id: $id) {
-        id
-        createdBy
-        createdAt
-        modifiedAt
-        name
-        status
-        services {
-          id
-          name
-          orderId
-          assinedTo
-          createdAt
-          type
-          description
-          status
-        }
-      }
-    }
-  `;
-
-  try {
-    const { data, loading } = await apolloClient.query({
-      query: getOrderQuery,
-      variables: { id },
-    });
-
-    const { getOrder } = data;
-
-    console.log(getOrder);
-
-    return { ...getOrder, loading };
-  } catch (e) {
-    return defaultState;
-  }
+  return { id };
 };
 
 export default Order;

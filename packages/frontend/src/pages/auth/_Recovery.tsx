@@ -1,4 +1,4 @@
-import { gql, useMutation } from '@apollo/client';
+import { useMutation } from '@apollo/client';
 import ClayButton from '@clayui/button';
 import ClayForm, { ClayInput } from '@clayui/form';
 import ClayLayout from '@clayui/layout';
@@ -10,13 +10,13 @@ import { IProps } from './_common';
 
 const Recovery = ({ setPageType }: IProps): React.ReactElement => {
   const [email, setEmail] = useState('');
-  const [onRecovery] = useMutation(RecoveryMutation);
+  const [onRecovery, { loading }] = useMutation(RecoveryMutation);
 
   const onSubmit = async (e) => {
     e.preventDefault();
     try {
       await onRecovery({ variables: { email } });
-      setPageType('SignIn');
+      // setPageType('SignIn');
       toast.info(`A recovery password email was sent to ${email} :)`);
     } catch (e) {
       toast.error(e.message);
@@ -38,7 +38,7 @@ const Recovery = ({ setPageType }: IProps): React.ReactElement => {
         <ClayLayout.Row>
           <ClayLayout.Col xl={12}>
             <ClayButton
-              disabled={!email}
+              disabled={!email || loading}
               onClick={onSubmit}
               className="btn-block"
             >

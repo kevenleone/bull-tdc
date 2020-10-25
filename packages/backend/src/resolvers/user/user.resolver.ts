@@ -5,6 +5,7 @@ import { promisify } from 'util';
 import { v4 } from 'uuid';
 
 import { User } from '~/entity/User';
+// import { handle as SendRecovery } from '~/jobs/Recovery';
 import { createBaseResolver } from '~/utils/createBaseResolver';
 import { constants, defaults, logger } from '~/utils/globalMethods';
 import Queue from '~/utils/Queue';
@@ -92,11 +93,15 @@ export class UserResolver extends BaseResolver {
     if (!user) {
       throw new Error(USER_NOT_FOUND);
     }
-    Queue.add(JOB_RECOVERY_MAILER, {
+
+    const data = {
       email,
       firstName: user.firstName,
       token: v4(),
-    });
+    };
+
+    // await SendRecovery({ data });
+    Queue.add(JOB_RECOVERY_MAILER, data);
     return true;
   }
 }

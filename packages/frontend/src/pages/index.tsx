@@ -1,10 +1,11 @@
-import { gql, useQuery } from '@apollo/client';
+import { useMutation, useQuery } from '@apollo/client';
 import ClayButton from '@clayui/button';
 import ClayIcon from '@clayui/icon';
 import ClayLabel from '@clayui/label';
 import ClaySticker from '@clayui/sticker';
 import Head from 'next/head';
 import Link from 'next/link';
+import { useRouter } from 'next/router';
 import React, { useState } from 'react';
 
 import ImportIllustration from '../assets/import-illustration.svg';
@@ -13,18 +14,11 @@ import ManagementToolbar from '../components/ManagementToolbar';
 import Modal from '../components/Modal';
 import Page from '../components/Page';
 import Table from '../components/Table';
-
-const getAllOrders = gql`
-  query getOrders {
-    getAllOrder {
-      id
-      createdBy
-      createdAt
-      modifiedAt
-      status
-    }
-  }
-`;
+import {
+  createOrderMutation,
+  deleteOrderMutation,
+  getAllOrders,
+} from '../graphql/schemas';
 
 const StatusTypeDisplay = {
   IN_PROCESSING: 'info',
@@ -34,8 +28,17 @@ const StatusTypeDisplay = {
 
 const columns = [
   {
-    key: 'createdBy',
+    key: 'name',
     render: (value, { id }) => (
+      <Link href={`/order/${id}`}>
+        <span className="ml-2 link">{value}</span>
+      </Link>
+    ),
+    value: 'Name',
+  },
+  {
+    key: 'createdBy',
+    render: (value) => (
       <>
         <ClaySticker displayType="light" shape="circle" size="sm">
           <img
@@ -44,12 +47,10 @@ const columns = [
           />
         </ClaySticker>
 
-        <Link href={`/order/${id}`}>
-          <span className="ml-2 link">{value}</span>
-        </Link>
+        <span className="ml-2">{value}</span>
       </>
     ),
-    value: 'Name',
+    value: 'Created By',
   },
   {
     key: 'createdAt',
@@ -64,22 +65,31 @@ const columns = [
   },
 ];
 
-const actions = [
-  {
-    action() {
-      console.log('Oie');
-    },
-    name: 'Edit',
-  },
-];
-
 const Order: React.FC = () => {
-  const { data } = useQuery(getAllOrders);
+  const router = useRouter();
+  const { data, refetch } = useQuery(getAllOrders, { pollInterval: 25000 });
+  const [deleteOrder] = useMutation(deleteOrderMutation);
+  const [createOrder] = useMutation(createOrderMutation);
   const [modalVisible, setModalVisible] = useState(false);
 
   const items = data?.getAllOrder || [];
 
   const withItems = !!items.length;
+
+  const actions = [
+    {
+      action({ id }) {
+        router.push(`/order/${id}`);
+      },
+      name: 'Edit',
+    },
+    {
+      action({ id }) {
+        deleteOrder({ variables: { id } }).then(refetch);
+      },
+      name: 'Delete',
+    },
+  ];
 
   const toggleModal = () => {
     setModalVisible(!modalVisible);
@@ -93,6 +103,12 @@ const Order: React.FC = () => {
       Import
     </ClayButton>
   );
+
+  const onSelectFile = () => {
+    createOrder({ variables: { data: { createdBy: 'keven' } } })
+      .then(refetch)
+      .then(toggleModal);
+  };
 
   return (
     <Page title="Order" addButton={AddButton}>
@@ -123,7 +139,9 @@ const Order: React.FC = () => {
           <div>
             <span>Drag & Drop to Upload or</span>
             <p>Supported file formats are .xls, .xlsx, .xlsm, or .csv</p>
-            <ClayButton displayType="secondary">Select File</ClayButton>
+            <ClayButton onClick={onSelectFile} displayType="secondary">
+              Select File
+            </ClayButton>
           </div>
         </div>
       </Modal>

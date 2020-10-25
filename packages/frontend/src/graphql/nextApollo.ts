@@ -12,6 +12,10 @@ function createApolloClient() {
           fields: {
             allPosts: concatPagination(),
           },
+          keyFields: ['id'],
+        },
+        getAllOrder: {
+          keyFields: ['id'],
         },
       },
     }),
