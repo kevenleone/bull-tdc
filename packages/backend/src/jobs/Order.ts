@@ -9,7 +9,7 @@ const generateFakeServices = (orderId: string, total = 10): Service[] => {
     return Service.create({
       assinedTo: `${faker.name.firstName()} ${faker.name.lastName()}`,
       createdAt: new Date(),
-      description: faker.lorem.lines(3),
+      description: faker.lorem.lines(6),
       name: `${faker.name.firstName()} ${faker.name.lastName()}`,
       orderId,
       status: ServiceStatus.CREATED,
@@ -28,7 +28,10 @@ const handle = async ({ data }: any): Promise<void> => {
     order.modifiedAt = new Date();
     order.save();
 
-    const services = generateFakeServices(id, 25);
+    const services = generateFakeServices(
+      id,
+      faker.random.number({ max: 200 }),
+    );
 
     for (const service of services) {
       service.save();

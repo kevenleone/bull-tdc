@@ -1,8 +1,8 @@
 import faker from 'faker';
-import { In, Not } from 'typeorm';
 
+import { Order, Status as OrderStatus } from '~/entity/Order';
 import Service, { Status } from '~/entity/Service';
-import { constants } from '~/utils/globalMethods';
+import { constants, logger } from '~/utils/globalMethods';
 import Queue from '~/utils/Queue';
 
 const {
@@ -23,46 +23,95 @@ const statuses = {
   [Status.WAITING_WINDOW]: JOB_SERVICE_WAITING_WINDOW,
 };
 
+interface IHandleServiceStatus {
+  data: {
+    id: string;
+  };
+}
+
+const handleServiceStatus = async ({
+  data: { id },
+}: IHandleServiceStatus): Promise<void> => {
+  const service = await Service.findOne(id);
+
+  if (!service) {
+    return;
+  }
+
+  let newStatus = service?.status;
+
+  switch (service.status) {
+    case Status.CREATED: {
+      newStatus = Status.IN_EXECUTION;
+      break;
+    }
+
+    case Status.IN_EXECUTION: {
+      newStatus = faker.random.boolean()
+        ? Status.WAITING_WINDOW
+        : Status.DISCARDED;
+      break;
+    }
+
+    case Status.WAITING_WINDOW: {
+      newStatus = Status.COMPLETE;
+      break;
+    }
+
+    case Status.DISCARDED: {
+      service.statusMessage = `Failed reason: ${faker.lorem.words(2)}`;
+      break;
+    }
+
+    case Status.COMPLETE: {
+      service.statusMessage = `Success: ${faker.lorem.words(4)}`;
+      break;
+    }
+  }
+
+  service.status = newStatus;
+  service.save();
+};
+
 const queueConfig = {
   active: true,
   config: {
     priority: PRIORITY_HIGH,
   },
   async handle(): Promise<void> {
-    const services = await Service.find({
+    const orders = await Order.find({
       where: {
-        status: Not(In([Status.COMPLETE, Status.DISCARDED])),
+        status: { $in: [OrderStatus.NOT_PROCESSED, OrderStatus.IN_PROCESS] },
       },
     });
 
-    for (const service of services) {
-      let newStatus = service.status;
-      switch (service.status) {
-        case Status.CREATED: {
-          newStatus = Status.IN_EXECUTION;
-          break;
-        }
+    for (const order of orders) {
+      const services = await Service.find({
+        where: {
+          orderId: order.id.toHexString(),
+        },
+      });
 
-        case Status.IN_EXECUTION: {
-          newStatus = faker.random.boolean()
-            ? Status.WAITING_WINDOW
-            : Status.DISCARDED;
-          break;
-        }
+      const serviceCompleteStatuses = [Status.DISCARDED, Status.COMPLETE];
 
-        case Status.WAITING_WINDOW: {
-          newStatus = Status.COMPLETE;
-          break;
+      for (const service of services) {
+        if (
+          serviceCompleteStatuses.includes(service.status) &&
+          service.statusMessage
+        ) {
+          logger.warn(`${service.name} is complete, skipping !`);
+        } else {
+          Queue.add(statuses[service.status], { id: service.id.toHexString() });
         }
       }
 
-      if (service.status !== newStatus) {
-        Queue.add(statuses[newStatus], {
-          after: newStatus,
-          before: service.status,
-        });
-        service.status = newStatus;
-        service.save();
+      const isServicesComplete = services.every(({ status }) =>
+        serviceCompleteStatuses.includes(status),
+      );
+
+      if (isServicesComplete) {
+        order.status = OrderStatus.PROCESSED;
+        order.save();
       }
     }
   },
@@ -77,28 +126,32 @@ export default [
         every: 10000, // time in milisseconds
       },
     },
-
     name: JOB_SERVICE_POOLING,
     selfRegister: true,
   },
   {
     ...queueConfig,
+    handle: handleServiceStatus,
     name: JOB_SERVICE_CREATED,
   },
   {
     ...queueConfig,
+    handle: handleServiceStatus,
     name: JOB_SERVICE_EXECUTION,
   },
   {
     ...queueConfig,
+    handle: handleServiceStatus,
     name: JOB_SERVICE_WAITING_WINDOW,
   },
   {
     ...queueConfig,
+    handle: handleServiceStatus,
     name: JOB_SERVICE_DISCARDED,
   },
   {
     ...queueConfig,
+    handle: handleServiceStatus,
     name: JOB_SERVICE_COMPLETE,
   },
 ];

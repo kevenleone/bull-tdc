@@ -2,19 +2,19 @@ import * as winston from 'winston';
 import WinstonDailyRotateFile from 'winston-daily-rotate-file';
 
 const logger = winston.createLogger({
-  level: 'debug',
   format: winston.format.combine(
     winston.format.timestamp(),
     winston.format.json(),
     winston.format.colorize(),
   ),
+  level: 'debug',
   transports: [
     new WinstonDailyRotateFile({
       auditFile: './log/audit.json',
-      filename: './log/app-%DATE%.log',
       datePattern: 'YYYY-MM-DD',
-      maxSize: '10m',
+      filename: './log/app-%DATE%.log',
       maxFiles: '3d',
+      maxSize: '10m',
     }),
   ],
 });

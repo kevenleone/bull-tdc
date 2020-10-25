@@ -1,4 +1,4 @@
-import { Queue, QueueScheduler, Worker } from 'bullmq';
+import { JobsOptions, Queue, QueueScheduler, Worker } from 'bullmq';
 
 import * as Jobs from '~/jobs';
 import { constants, defaults, logger } from '~/utils/globalMethods';
@@ -53,10 +53,10 @@ Object.values(Jobs).map((job) => {
 });
 
 export default {
-  add(name: string, data?: any): any {
+  add(name: string, data?: any, options?: JobsOptions): any {
     const queue = this.queues.find((queue) => queue.name === name);
     if (queue) {
-      queue.bull.add(name, data);
+      queue.bull.add(name, data, options);
       logger.info(`Job: ${name} added to Queue`);
       return queue;
     }

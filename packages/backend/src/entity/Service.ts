@@ -48,6 +48,10 @@ export default class Service extends BaseEntity {
   @Field(() => Status)
   @Column()
   status: Status;
+
+  @Field({ nullable: true })
+  @Column({ nullable: true })
+  statusMessage: string;
 }
 
 export { Status };

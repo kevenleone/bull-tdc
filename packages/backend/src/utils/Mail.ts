@@ -18,7 +18,7 @@ export const getEmailTemplate = ({
   paragraph1 = '',
   paragraph2 = '',
   title,
-}: EmailTemplate) => {
+}: EmailTemplate): string => {
   const newPath = path.resolve(__dirname, '..', 'mail', 'index.html');
   let htmlFile = fs.readFileSync(newPath).toString('utf-8');
   htmlFile = htmlFile
