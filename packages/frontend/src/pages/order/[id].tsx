@@ -7,8 +7,8 @@ import Head from 'next/head';
 import { useRouter } from 'next/router';
 import React, { useState } from 'react';
 
-import { initializeApollo } from '../../../nextApollo';
 import Page from '../../components/Page';
+import { initializeApollo } from '../../graphql/nextApollo';
 
 const statuses = {
   COMPLETE: 'success',

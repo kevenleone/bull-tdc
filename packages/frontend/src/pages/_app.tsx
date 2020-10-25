@@ -7,8 +7,8 @@ import { ClayIconSpriteContext } from '@clayui/icon';
 import React from 'react';
 import { ToastContainer } from 'react-toastify';
 
-import { useApollo } from '../../nextApollo';
 import Layout from '../components/Layout';
+import { useApollo } from '../graphql/nextApollo';
 
 const spritemap = require('../assets/spritemap.svg');
 

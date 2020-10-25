@@ -5,13 +5,8 @@ import ClayLayout from '@clayui/layout';
 import React, { useState } from 'react';
 import { toast } from 'react-toastify';
 
+import { RecoveryMutation } from '../../graphql/schemas';
 import { IProps } from './_common';
-
-const RecoveryMutation = gql`
-  mutation ForgotPassword($email: String!) {
-    forgotPassword(email: $email)
-  }
-`;
 
 const Recovery = ({ setPageType }: IProps): React.ReactElement => {
   const [email, setEmail] = useState('');

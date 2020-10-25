@@ -1,4 +1,4 @@
-import { gql, useMutation } from '@apollo/client';
+import { useMutation } from '@apollo/client';
 import ClayButton from '@clayui/button';
 import ClayForm, { ClayInput } from '@clayui/form';
 import ClayLayout from '@clayui/layout';
@@ -6,13 +6,8 @@ import { useRouter } from 'next/router';
 import React, { useState } from 'react';
 import { toast } from 'react-toastify';
 
+import { SignInMutation } from '../../graphql/schemas';
 import { IProps } from './_common';
-
-const SignInMutation = gql`
-  mutation Login($email: String!, $password: String!) {
-    login(email: $email, password: $password)
-  }
-`;
 
 const SignIn = ({ setPageType }: IProps): React.ReactElement => {
   const [form, setForm] = useState({ email: '', password: '' });

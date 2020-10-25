@@ -1,20 +1,12 @@
-import { gql, useMutation } from '@apollo/client';
+import { useMutation } from '@apollo/client';
 import ClayButton from '@clayui/button';
 import ClayForm, { ClayInput } from '@clayui/form';
 import ClayLayout from '@clayui/layout';
-import { useRouter } from 'next/router';
 import React, { useState } from 'react';
 import { toast } from 'react-toastify';
 
+import { SignUpMutation } from '../../graphql/schemas';
 import { IProps } from './_common';
-
-const SignUpMutation = gql`
-  mutation CreateUser($data: CreateUserInput!) {
-    createUser(data: $data) {
-      id
-    }
-  }
-`;
 
 const SignUp = ({ setPageType }: IProps): React.ReactElement => {
   const [form, setForm] = useState({
@@ -23,7 +15,6 @@ const SignUp = ({ setPageType }: IProps): React.ReactElement => {
     screen_name: '',
   });
   const [signUpUser] = useMutation(SignUpMutation);
-  const router = useRouter();
 
   const onChange = ({ target: { name, value } }) => {
     setForm({
