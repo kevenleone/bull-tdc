@@ -5,7 +5,7 @@ import ClayLayout from '@clayui/layout';
 import moment from 'moment';
 import Head from 'next/head';
 import { useRouter } from 'next/router';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 
 import Page from '../../components/Page';
 import { getOrderQuery } from '../../graphql/schemas';
@@ -26,9 +26,20 @@ interface IOrder {
   id: string;
 }
 
+interface Service {
+  name?: string;
+  orderId?: string;
+  assinedTo?: string;
+  createdAt?: string;
+  statusMessage?: string;
+  type?: string;
+  description?: string;
+  status?: string;
+}
+
 const Order = ({ id }: IOrder): React.ReactElement => {
   const router = useRouter();
-  const { data = {} } = useQuery(getOrderQuery, {
+  const { loading, data = {} } = useQuery(getOrderQuery, {
     pollInterval: 15000,
     variables: { id },
   });
@@ -36,7 +47,13 @@ const Order = ({ id }: IOrder): React.ReactElement => {
   const { getOrder = { services: [] } } = data;
   const { createdAt, name, services } = getOrder;
 
-  const [service, setService] = useState(services[0] || {});
+  const [service, setService] = useState<Service>({});
+
+  useEffect(() => {
+    if (services.length) {
+      setService(services[0]);
+    }
+  }, [loading]);
 
   return (
     <Page onClickBack={() => router.push('/')} title={name}>
@@ -87,10 +104,8 @@ const Order = ({ id }: IOrder): React.ReactElement => {
                     <span>{moment(service.createdAt).fromNow()}</span>
                   </ClayLayout.Col>
                   <ClayLayout.Col>
-                    <p>Status</p>
-                    <ClayLabel displayType={getLabelColor(service.status)}>
-                      {service.status}
-                    </ClayLabel>
+                    <p>Service Type</p>
+                    <span>{service.type}</span>
                   </ClayLayout.Col>
                 </ClayLayout.Row>
 
@@ -100,10 +115,21 @@ const Order = ({ id }: IOrder): React.ReactElement => {
                     <span>{service.assinedTo}</span>
                   </ClayLayout.Col>
                   <ClayLayout.Col>
-                    <p>Service Type</p>
-                    <span>{service.type}</span>
+                    <p>Status</p>
+                    <ClayLabel displayType={getLabelColor(service.status)}>
+                      {service.status}
+                    </ClayLabel>
                   </ClayLayout.Col>
                 </ClayLayout.Row>
+
+                {service.statusMessage && (
+                  <ClayLayout.Row className="order-info">
+                    <ClayLayout.Col>
+                      <p>Status Message</p>
+                      <span>{service.statusMessage}</span>
+                    </ClayLayout.Col>
+                  </ClayLayout.Row>
+                )}
 
                 <ClayLayout.Row className="order-info">
                   <ClayLayout.Col>

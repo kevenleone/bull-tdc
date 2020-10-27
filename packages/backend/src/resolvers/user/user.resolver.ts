@@ -72,8 +72,7 @@ export class UserResolver extends BaseResolver {
       return new Error(USER_PASSWORD_INVALID);
     }
 
-    const userData: User = JSON.parse(JSON.stringify(user));
-    delete userData.password;
+    const userData = { ...user, password: '' };
 
     try {
       const token: any = await promisify(jsonwebtoken.sign)(

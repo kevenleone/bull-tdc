@@ -54,6 +54,7 @@ export const getOrderQuery = gql`
         orderId
         assinedTo
         createdAt
+        statusMessage
         type
         description
         status

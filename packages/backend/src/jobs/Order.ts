@@ -9,7 +9,7 @@ const generateFakeServices = (orderId: string, total = 10): Service[] => {
     return Service.create({
       assinedTo: `${faker.name.firstName()} ${faker.name.lastName()}`,
       createdAt: new Date(),
-      description: faker.lorem.lines(6),
+      description: faker.lorem.lines(8),
       name: `${faker.name.firstName()} ${faker.name.lastName()}`,
       orderId,
       status: ServiceStatus.CREATED,

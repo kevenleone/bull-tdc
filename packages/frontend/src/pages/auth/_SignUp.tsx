@@ -14,7 +14,7 @@ const SignUp = ({ setPageType }: IProps): React.ReactElement => {
     password: '',
     screen_name: '',
   });
-  const [signUpUser] = useMutation(SignUpMutation);
+  const [signUpUser, { loading }] = useMutation(SignUpMutation);
 
   const onChange = ({ target: { name, value } }) => {
     setForm({
@@ -38,6 +38,7 @@ const SignUp = ({ setPageType }: IProps): React.ReactElement => {
           },
         },
       });
+      toast.info('Account created with success');
       setPageType('SignIn');
     } catch (e) {
       toast.error(e.message);
@@ -65,7 +66,13 @@ const SignUp = ({ setPageType }: IProps): React.ReactElement => {
             <ClayButton className="btn-block">Cancel</ClayButton>
           </ClayLayout.Col>
           <ClayLayout.Col xl={7}>
-            <ClayButton onClick={onSubmit} className="btn-block">
+            <ClayButton
+              disabled={
+                !form.email || !form.password || !form.screen_name || loading
+              }
+              onClick={onSubmit}
+              className="btn-block"
+            >
               Create
             </ClayButton>
           </ClayLayout.Col>
