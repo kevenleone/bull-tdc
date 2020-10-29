@@ -3,6 +3,7 @@ import ClayButton from '@clayui/button';
 import ClayIcon from '@clayui/icon';
 import ClayLabel from '@clayui/label';
 import ClaySticker from '@clayui/sticker';
+import moment from 'moment';
 import Head from 'next/head';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
@@ -54,6 +55,7 @@ const columns = [
   },
   {
     key: 'createdAt',
+    render: (date) => moment(date).fromNow(),
     value: 'Created At',
   },
   {

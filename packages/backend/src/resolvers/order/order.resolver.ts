@@ -31,7 +31,7 @@ export class OrderResolver extends BaseResolver {
       name,
       status,
     }).save();
-    Queue.add(constants.JOB_IMPORT_ORDER, { id: order.id });
+    Queue.add(constants.JOB_IMPORT_ORDER, order, { attempts: 2 });
     return order;
   }
 }

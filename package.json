@@ -1,17 +1,13 @@
 {
     "name": "monorepo",
     "version": "1.0.0",
-    "repository": "https://github.com/kevenleone/jobs-tdc.git",
+    "repository": "https://github.com/kevenleone/bull-tdc.git",
     "author": "Keven <keven.santos.sz@gmail.com>",
     "license": "MIT",
     "private": true,
     "scripts": {
-      "lint:backend": "yarn workspace @monorepo/backend lint",
-      "lint:frontend": "yarn workspace @monorepo/frontend lint",
       "start:frontend": "yarn workspace @monorepo/frontend dev",
       "start:backend": "yarn workspace @monorepo/backend dev",
-      "migrate": "yarn workspace @monorepo/backend migrate",
-      "studio": "yarn workspace @monorepo/backend studio",
       "format:frontend": "eslint packages/frontend/**/*.ts --fix",
       "format": "eslint packages/backend/src/* --ext .ts --fix",
       "test": "jest",

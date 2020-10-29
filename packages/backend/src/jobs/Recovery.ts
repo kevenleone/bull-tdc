@@ -7,7 +7,6 @@ const { JOB_RECOVERY_MAILER } = constants;
 export const handle = async ({ data }: any): Promise<void> => {
   const { email, name = 'kevenleone' } = data;
   const htmlFile = getEmailTemplate({
-    from: 'Keven Leone',
     paragraph1: 'You can recovery your account, by clicking on button bellow',
     title: name,
   });

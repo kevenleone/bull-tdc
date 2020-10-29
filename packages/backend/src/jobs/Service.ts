@@ -54,7 +54,9 @@ const handleServiceStatus = async ({
     }
 
     case Status.WAITING_WINDOW: {
-      newStatus = Status.COMPLETE;
+      if (new Date().getMinutes() % 2) {
+        newStatus = Status.COMPLETE;
+      }
       break;
     }
 
@@ -123,7 +125,7 @@ export default [
     config: {
       priority: PRIORITY_HIGH,
       repeat: {
-        every: 10000, // time in milisseconds
+        every: 20000, // time in milisseconds
       },
     },
     name: JOB_SERVICE_POOLING,
